@@ -1,0 +1,217 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 1}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+
+\item Twenty workers are to be assigned to twenty different jobs. How many different assignments are possible?\\
+
+Answer: $20!$
+
+%%%% 2 %%%%
+
+\item A tourist wants to visit six out of thirteen American cities; seven of them are on the East Coast, three on the West Coast and three in the middle of the country. In how
+many ways can she do that if
+
+\begin{enumerate}
+\item the order of the visits does not play a role?
+\item the order of the cities is important?
+\item the order is not important, but she wants to
+visit at least three cities on the East Coast and at
+least two on the West Coast?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item Since order does not matter, there are $\binom{13}{6} = 1716$ ways to choose 6 of the 13 cities to visit. 
+	
+\item Since order does matter, there are 13 choices for the first city, 12 choices for the second city, $\dots$, 8 choices for the sixth city. There are $13! / (13-6)! = 13! / 7! = 1, 235, 520$ ways to do it. 
+	
+\item Since she visits a total of 6 cities, the possibilities under the given constraints are:
+
+\begin{enumerate}
+\item 3 East Coast cities, 2 West Coast cities, 1 Middle city.
+\item 4 East Coast cities, 2 West Coast cities, 0 Middle of country cities.
+\item 3 East Coast cities, 3 West Coast cities, 0 Middle of country cities.
+\end{enumerate}
+
+To find the total number of ways she can plan her trip, add up the number of ways she can do each of i, ii, and iii. 
+
+$$
+\binom{7}{3} \binom{3}{2} \binom{3}{1}
++ \binom{7}{4} \binom{3}{2} \binom{3}{0}
++ \binom{7}{3} \binom{3}{3} \binom{3}{0}
+= 455.
+$$
+\end{enumerate}
+
+%%%% 3 %%%%
+
+\item
+How many words can you build from the letters ARRANGE if
+
+\begin{enumerate}
+\item you have to use all the letters?
+\item you do not have to use all the letters (but every word has at least one letter)
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item There are 7! ways to arrange the 7 letters in ARRANGE. But then since the letter A appears twice and the letter R appears twice, we must divide by the number of ways we can arrange duplicates. This gives a total of $7!/(2!2!) = 7!/4 = 1260$ ways to do it. 
+\item Consider each of the possible word lengths and then the subcases for each word length. Generally there are three subcases for each word length: \\
+
+Subcase 1. All letters in the word are different (no repeated letters). \\
+
+Subcase 2. Two of the letters in the word are repeats (either both A's appear or both R's appear but not all four of A,A,R,R).\\
+
+Subcase 3. Four of the letters in the word are repeats (both A's appear and both R's appear in the word). \\
+
+Note that note all subcases may be possible for each word length. For example, for a 6 or 7 letter word it's not possible to have no repeated letters and for a 3 letter word it's not possible to have four letters that are repeats, etc.
+
+\begin{enumerate}
+\item 1 letter: 5 words possible.
+
+\begin{itemize}
+\item The only possible subcase is that all letters are different (there's only 1 letter of course!) and there are 5 different letters to choose from so $\binom{5}{1} = 5$ words possible. 
+\end{itemize}
+
+\item 2 letters: 22 words possible.
+
+\begin{itemize}
+\item If the letters are all different there are $5\cdot 4 = 20$ words possible 
+\item If both letters are the same then either the word is AA or RR: 2 words possible.
+\end{itemize}
+
+\item 3 letters: 84 words possible.
+
+\begin{itemize}
+\item If all letters are different there are $5 \cdot 4 \cdot 3 = 60$ words possible.
+\item If two letters are the same then there are 4 choices remaining for the third letter. Once the letters have been chosen there are 3 ways to order the letters but then we must divide by the number of ways to order the repeats so in total there are $\binom{2}{1}\binom{4}{1}3! / 2!= 24$ words possible.
+\end{itemize}
+
+\item 4 letters: 270 words possible. 
+
+\begin{itemize}
+\item If the letters are all different there are $5\cdot 4 \cdot 3 \cdot 2 \cdot = 120$ words possible.
+
+\item If two of the letters are the same then there are $\binom{2}{1}\binom{4}{2} 4! / 2! = 144$ words possible.
+
+\item If four of the letters are the same there are $\binom{2}{2}\binom{3}{0}4!/(2!2!) = 6$ words possible. 
+\end{itemize}
+
+\item 5 letters: 690 words possible. 
+
+\begin{itemize}
+\item If the letters are all different there are $5! = 120$ words possible.
+
+\item If two of the letters are the same there are $\binom{2}{1}\binom{4}{3}5!/2! = 480$ words possible. 
+
+\item If four of the letters are the same there are $\binom{2}{2}\binom{3}{1}5!/(2!2!) = 90$ words possible.
+\end{itemize}
+
+\item 6 letters: 1260 words possible.
+\begin{itemize}
+\item If two of the letters are the same there are $\binom{2}{1}\binom{4}{4}6! / 2! = 720$ words possible.
+\item If four of the letters are the same there are $\binom{2}{2}\binom{3}{2}6!/(2!2!) = 540$ words possible. 
+\end{itemize} 
+
+\item 7 letters: 1260 words possible (by part a).
+\end{enumerate}
+
+{\bf Final result:} adding up the numbers from (i) through (vii) conclude that 3591 words can be built. 
+\end{enumerate} 
+
+%%%% 4 %%%%
+
+\item Two experiments are to be performed. The first one can result in $r$ different outcomes.
+If the first experiment results in outcome $j$, then the second experiment can result in $n_j$ possible outcomes, $j = 1, . . . , r$. What is the total number of possibles outcomes of the two experiments?
+
+Answer: Add up the number of outcomes in the second experiment for each of the outcomes in the first experiment. There are a total of $n_1 + n_2 + \dots + n_r$ possible outcomes of the two experiments. 
+
+%%%% 5 %%%%
+
+\item Prove by induction that for all positive integers n that
+
+$$
+\sum_{k=0}^n \binom{n}{k} = 2^n
+$$
+
+Answer: For the base case $n=1$, $\sum_{k=0}^n \binom{n}{k} =\binom{1}{0} + \binom{1}{1}  = 1 + 1 = 2 = 2^n$.
+
+For the inductive step assume that the formula holds for some positive integer $n$.
+
+\begin{align*}
+\sum_{k=0}^{n+1} \binom{n+1}{k}
+&= \binom{n+1}{0} + \sum_{k=1}^{n} \binom{n+1}{k} + \binom{n+1}{n+1} \\
+&= 1 + \sum_{k=1}^{n} \left(\binom{n}{k-1} + \binom{n}{k}\right) + 1 \\
+&= \left(1 + \sum_{k=1}^n \binom{n}{k-1} \right) + \left(1 + \sum_{k=1}^n \binom{n}{k} \right) \\
+&= \left(1 + \sum_{j=0}^{n-1} \binom{n}{j} \right) + \left(\binom{n}{0} + \sum_{k=1}^n \binom{n}{k} \right) \\
+&= \left(\binom{n}{n}+ \sum_{j=0}^{n-1} \binom{n}{j} \right) + \sum_{k=0}^n \binom{n}{k} \\
+&= \sum_{j=0}^n \binom{n}{j} +  \sum_{k=0}^n \binom{n}{k} \\
+&= 2^n + 2^n = 2^{n+1}.
+\end{align*}
+
+%%%% 6 %%%%
+
+\item A soccer coach has 2 goalkeepers and 15 field players at his disposition: 5 defenders, 7
+midfielders and 3 forwards.
+
+\begin{enumerate}
+\item How many different soccer teams (consisting of 1 goalkeeper and 10 field players) can he build up from these players?
+\item If he wants additionally that there are at least 3 defenders, at least 4 midfielders and
+at least 2 forwards in his team, how many teams he can form under this restriction?
+\end{enumerate}  
+
+Answer:
+
+\begin{enumerate}
+\item He must choose 1 of the 2 goalkeepers and 10 of the 15 field players. The order in which he chooses does not matter, so he has $\binom{2}{1} \binom{15}{10} = 6006$ ways to do it. 
+\item He must still choose a goalkeeper and there are $\binom{2}{1} = 2$ ways to do this. So find out the number of ways to choose 10 field players under the given constraints and multiply that number by 2. His options are:
+
+\begin{enumerate}
+\item 4 defenders, 4 midfielders, 2 forwards,
+\item 3 defenders, 5 midfielders, 2 forwards,
+\item 3 defenders, 4 midfielders, 3 forwards.
+\end{enumerate}
+
+The total number of different soccer teams he can build is
+
+$$\binom{2}{1}\left(\binom{5}{4}\binom{7}{4}\binom{3}{2} + \binom{5}{3}\binom{7}{5}\binom{3}{2} + \binom{5}{3}\binom{7}{4}\binom{3}{3}\right) = 3010.
+$$
+\end{enumerate}
+
+\end{enumerate}
+
+
+
+\end{document}
