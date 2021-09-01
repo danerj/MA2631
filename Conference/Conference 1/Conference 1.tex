@@ -1,0 +1,89 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Conference 1}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+In how many ways can 3 science fiction books, 4 math books and 1 cooking book
+arranged on a bookshelf, if
+
+\begin{enumerate}
+\item there are no restrictions on the arrangement?
+\item all the science fiction books have to be stored together and also all the math books
+have to be stored together?
+\item (only) the math books have to be stored together, the rest can be arranged without
+restriction?
+\end{enumerate}
+
+
+%%%% 2 %%%%
+\item 
+
+Mike has nine friends and wants to throw a party. As his appartment is not big enough
+to invite all of them, he decides to invite only six.
+
+\begin{enumerate}
+\item How many choices of invitations has he?
+\item Two of his friends of his are feuding and will not attend the party together.
+Accounting for this fact, how many possibilities has he?
+\item Two of his friends are very close and will attend the party only if invited together.
+Accounting for this fact, how many possibilities has he?
+\end{enumerate}
+
+
+%%%% 3 %%%%
+\item
+
+A coin is tossed repeatedly until the first time ”heads” appears.
+
+\begin{enumerate}
+\item Describe mathematically the sample space of this experiment.
+\item Describe mathematically the events
+$$E = \text{”there are no more than four tails”}$$ 
+$$F = \text{”there are at least two tails”}$$
+\item Describe mathematically the events $E\cap F$ and $E \cup F^c$
+\end{enumerate}
+
+
+%%%% 4 %%%%
+\item
+
+Given a family of events $E_1, E_2, \dots , E_n, \dots$ on some sample space $\Omega$, construct a new
+family $F_1, F_2, \dots ,F_n, \dots$ on the same sample space $\Omega$ such that the events $F_i$ are
+monotone, ($F_m \subseteq F_n$ for $m \leq n$)and
+
+$$ \bigcup_{k=1}^n F_k = \bigcup_{k=1}^n \text{ for any positive integer } n.$$
+
+{\bf Prove} that the constructed family has the desired properties.
+
+\end{enumerate}
+
+\end{document}
