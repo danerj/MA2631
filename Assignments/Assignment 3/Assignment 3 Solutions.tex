@@ -1,0 +1,200 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 3}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Let $\Omega$ be a sample space, $P$ a probability and $E, F$ events. Prove that
+
+$$
+P[E^c \cup F^c] \leq 2 - (P[E] + P[F]).
+$$
+
+Answer:
+
+\begin{align*}
+P[E^c \cup F^c]  &= P[E^c] + P[F^c] - P[E^c \cap F^c] \\
+& \leq P[E^c] + P[F^c] \\
+&= (1- P[E]) + (1- P[F]) \\
+&= 2 - (P[E] + P[F]).
+\end{align*}
+
+%%%% 2 %%%%
+\item
+
+A person picks 13 cards out of a standard deck of 52.
+
+\begin{enumerate}
+\item What is the probability that he has at least one of the four aces in his hand?
+\item What is the probability that he has exactly one ace in his hand?
+\end{enumerate}
+
+Answer: Let $A$ be the event that at least one card in his hand is an ace and $B$ the event that exactly one card in his hand is an ace.
+
+\begin{enumerate}
+
+\item $P(A) = \frac{\binom{4}{1}\binom{48}{12} + \binom{4}{2}\binom{48}{11} + \binom{4}{3}\binom{48}{10} + \binom{4}{4}\binom{48}{9}}{\binom{52}{13}} \approx 69.62\%.$
+
+\item $P(B) = \frac{\binom{4}{1}\binom{48}{12}}{\binom{52}{13}} \approx 43.88\%.$
+
+\end{enumerate}
+
+%%%% 3 %%%%
+\item
+
+You repeatedly toss a coin until you get a heads. What is the probability that you get the head on an even-numbered toss?
+
+Answer: The probability of the first heads occurring on the second toss is $(1/2)^2 = 1/4$. The probability of the first heads occurring on the fourth toss is $(1/2)^4 =1/16$. In general the probability of the first heads occurring on the $n$th {\bf even} toss is $(1/2)^{2n}$. Since any even-numbered toss must be considered, add up these probabilities for all positive integers $n$. The probability of the first heads occurring on an even-numbered toss is:
+
+$$
+\sum_{n=1}^\infty \left(\frac{1}{2}\right)^{2n}
+= \frac{1}{4} + \frac{1}{16} + \frac{1}{64} + \dots 
+= \frac{1}{4}\left(1 + \frac{1}{4} + \frac{1}{16} + \dots\right)
+= \frac{\frac{1}{4}}{1-\frac{1}{4}}
+= \frac{1}{3}.
+$$
+
+\newpage
+%%%% 4 %%%%
+\item
+
+An urn contains twelve balls, four of which are white, three green and five black.
+
+\begin{enumerate}
+\item We draw three balls, what is the probability that all three balls are of different color?
+
+\item We draw three balls consecutively, after each drawing placing back the ball in the earn before drawing the next, what is the probability that the color of all three drawn balls is different?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item Since there are three different colors and we draw three balls, choose one of each color.
+
+$$
+\frac{\binom{4}{1}\binom{3}{1}\binom{5}{1}}{\binom{12}{3}}
+= \frac{3}{11} \approx 27.27\%.
+$$
+
+\item Since we replace the ball we have chosen after each draw, the probability of drawing a white ball is always 1/3, the probability of drawing a green ball is always 1/4, and the probability of drawing a black ball is always 5/12. The probability of drawing a white ball, green ball, and black ball (in that order) is $\frac{1}{4}\frac{1}{3}\frac{5}{12}$, the probability of drawing a green ball, white ball, and black ball (in that order) is $\frac{1}{3}\frac{1}{4}\frac{5}{12}$, etc. Therefore the probability of drawing 3 different colored balls (in any order) is:
+
+$$
+3! \frac{1}{4}\frac{1}{3}\frac{5}{12} = \frac{5}{24}
+\approx 20.83\%.
+$$
+\end{enumerate}
+
+
+%%%% 5 %%%%
+\item
+
+Consider the lottery “Mega Millions”.
+
+\begin{enumerate}
+\item For one play, what is the probability that you will win the jackpot?
+
+\item For one play, what is the probability that you have three winning numbers plus the MEGABALL?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item There are $\binom{56}{5}\binom{46}{1}$ different plays and exactly one play that wins the jackpot (all numbers match). The probability of winning the jackpot is
+
+$$
+\frac{1}{\binom{56}{5}\binom{46}{1}}
+= \frac{1}{46\binom{56}{5}}
+= \frac{1}{175, 711, 536}
+\approx  0.000000569\%.
+$$
+
+\item Choose 3 of the 5 winning numbers, 2 of the 51 losing numbers, and pick the 1 megaball number. There are still the same number of different plays. 
+
+$$
+\frac{\binom{5}{3}\binom{51}{2}\binom{1}{1}}{\binom{56}{5}\binom{46}{1}}
+= \frac{2125}{29285256}
+\approx 0.0073\%.
+$$
+
+\end{enumerate}
+
+\newpage
+%%%% 6 %%%%
+\item
+
+25 WPI math majors are joining their classes. 14 go to Probability, 12 go to Linear Programming and 9 to Discrete Mathematics. 7 take both Probability and Linear Programming, 4 take both Probability and Discrete Mathematics, 5 take both Linear Programming and Discrete Mathematics, and 3 take all three classes.
+
+\begin{enumerate}
+\item If a student is picked at random, what is the probability that she is not any of the three classes?
+
+\item If a student is chosen randomly, what is the chance that he takes exactly one of these three classes?
+
+\item If two students are chosen randomly, what is the chance that at least one is taken any of these three classes
+\end{enumerate}
+
+Answer: Define the events $E,F,$ and $G$ so that $E$ is the event that a student picked at random is taking probability, $F$ the event that a student picked at random is taking linear programming, and $G$ the event that a student picked at random is taking discrete mathematics.
+
+$$
+P[E] = 14/25, \quad P[F] = 12/25, \quad P[G] = 9/25,
+$$
+$$
+P[E \cap F] = 7/25, \quad P[E\cap G] = 4/25, \quad P[F\cap G] = 5/25, \quad P[E\cap F \cap G] = 3/25.
+$$ 
+
+\begin{enumerate}
+\item
+
+\begin{align*}
+P[(E\cup F \cup G)^c] &= 1 - P[E\cup F \cup G] \\
+&= 1 - (P[E] + P[F] + P[G] - P[E \cap F] - P[E \cap G] - P[F \cap G] + P[E \cap F \cap G]) \\
+&= 1 - \frac{14 + 12 + 9 - 7 - 4 - 5 + 3}{25} \\
+&= 1 - \frac{22}{25} \\
+&= \frac{3}{25} = 12\%.
+\end{align*}
+
+\item First add up $P[E], P[F], P[G]$. But this counts $P[E\cap F], P[E \cap G], P[F \cap G]$ twice each and $P[E \cap F \cap G]$ three times. To exclude the intersections subtract $2P[E\cap F], 2P[E \cap G], 2P[F \cap G]$. But then we have substracted $P[E\cap F \cap G]$ three times too many so must add back in $3P[E\cap F \cap G]$. 
+
+\begin{align*}
+&P[(E \backslash (F \cup G)) \cup (F \backslash (E \cup G)) \cup (G \backslash (E \cup F)]\\
+&= P[E] + P[F] + P[G] - 2(P[E \cap F] + P[E\cap G] + P[F \cap G]) + 3P[E \cap F \cap G] \\
+&= \frac{14 + 12 + 9 - 2(7 + 4 + 5) + 3\cdot 3}{25} \\
+&= \frac{12}{25} = 48\%.
+\end{align*}
+
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,209 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 4}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+We are given a die and six fair coins.  First we roll the die and then we flip exactly the number of coins the die shows.  What is the probability that we get exactly two “heads”?\\
+
+Answer: Let $D$ be a random variable representing the result of rolling the die that can take on any of the values 1,2,3,4,5,6. Let $H$ be a random variable representing the number of heads flipped that can take on any of the values 0,1,2,3,4,5,6. Calculate $P(H = 2)$.
+
+\begin{align*}
+P[H = 2] &= \sum_{k=1}^6 P[H = 2 | D = k] P[D = k]\\
+&= \frac{1}{6}\sum_{k=1}^6 P[H = 2 | D = k] \\
+&= \frac{1}{6}\sum_{k=1}^6 \binom{k}{2}\left(\frac{1}{2}\right)^{2}\left(\frac{1}{2}\right)^{k-2} \\
+&= \frac{1}{6}\sum_{k=1}^6 \binom{k}{2}\left(\frac{1}{2}\right)^{k} \\ 
+&= \frac{1}{6}\left[\binom{1}{2}\left(\frac{1}{2}\right)^1
++\binom{2}{2}\left(\frac{1}{2}\right)^2
++\binom{3}{2}\left(\frac{1}{2}\right)^3
++\binom{4}{2}\left(\frac{1}{2}\right)^4
++\binom{5}{2}\left(\frac{1}{2}\right)^5
++\binom{6}{2}\left(\frac{1}{2}\right)^6
+\right]\\
+&= \frac{33}{128} = 0.2578125.
+\end{align*}
+
+\newpage
+%%%% 2 %%%%
+\item
+
+A microchip for a cellphone is produced by the factories A,B and C. Factory A produces 30\% of all microchips, B 50\% and C 20\%.  A microchip produced by A is defective in 2\% of all cases, a chip produced in B is defective in 3\% and a chip produced in C is defective in 0.5\% of all cases.  Assume you get a cell phone with a defective microchip.  How likely is it that it was produced in factory A ?\\
+
+Answer: Let $P(D)$ be the probability that your cell phone chip is defective. Let $P(A), P(B), P(C)$ be the probability the chip was produced in factory A, B, or C respectively. Let $P(X|Y)$ be the conditional probability of $X$ given $Y$, where $X$ and $Y$ are among the variables described above. 
+
+\begin{align*}
+P[A | D] &= \frac{P[A \cap D]}{P[D]} \\
+&= \frac{P[D | A]P[A]}{P[D]} \\
+&= \frac{P[D|A]P[A]}{P[D | A]P[A] + P[D|B]P[B] + P[D|C]P[C]} \\
+&= \frac{(.02)(.3)}{(.02)(.3) + (.03)(.5) + (.005)(.2)} \\
+&= \frac{3}{11} = .\overline{27}
+\end{align*}
+
+
+\newpage
+%%%% 3 %%%%
+\item
+
+\begin{enumerate}
+\item
+
+Let $A,B,C$ be three events in a sample space $\Omega$ with a probability $P$ satisfying $P[C]>0$.  Show that
+
+$$
+P[A\cup B | C] = P[A|C] +P[B|C]-P[A\cap B|C].
+$$ 
+
+\item 
+
+Let $A_1,\dots , A_n$ be mutually exclusive events in a sample space $\Omega$ and $C$ an event in $\Omega$ with $P[C]>0$.  Show that
+
+$$
+P\left[\bigcup_{i = 1}^n A_i | C \right] = \sum_{i=1}^n P[A_i | C].
+$$
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+
+\begin{align*}
+P[A\cup B | C] &= \frac{P[(A\cup B) \cap C]}{P[C]} \\
+&= \frac{P[(A\cap C) \cup B \cap C)]}{P[C]} \\
+&= \frac{P[A\cap C]+ P[B \cap C] - P[(A\cap C) \cap (B \cap C)]}{P[C]} \\
+&= \frac{P[A\cap C]}{P[C]} + \frac{P[B \cap C]}{P[C]} - \frac{P[(A\cap B) \cap C]}{P[C]} \\
+&= P[A|C] +P[B|C]-P[A\cap B|C].
+\end{align*}
+
+\item Since the $A_i$ are mutually exclusive (pairwise disjoint), so are the events $A_i \cap C$, $i = 1,\dots , n$, 
+
+\begin{align*}
+P\left[\bigcup_{i = 1}^n A_i | C \right] &= \frac{P\left[\left(\bigcup_{i=1}^n A_i \right) \cap C\right]}{P[C]} \\
+&= \frac{P\left[\bigcup_{i=1}^n (A_i \cap C)\right]}{P[C]} \\
+&= \frac{\sum_{i=1}^n P[A_i \cap C]}{P[C]} \\
+&= \sum_{i = 1}^n P[A_i | C] .
+\end{align*}
+
+\end{enumerate}
+
+\newpage
+%%%% 4 %%%%
+\item
+
+An AIDS test can detect an HIV infection with 99\% accuracy, whereas it can accurately identify the absence of an infection with 98\% probability.  Noting that approximately 0.6\% of the US population is infected by HIV, how likely is it that a positive AIDS test indicates indeed a HIV infection?
+
+Answer: Let $T$ be the event that the test shows positive and let $H$ be the event that the patient is indeed HIV positive. 
+
+$$
+P[H | T] = \frac{P[T | H] P[H]}{P[T|H]P[H] + P[T|H^c]P[H^c]}
+= \frac{(.99)(.006)}{(.99)(.006) + (1-.98)(1-.006)}
+\approx .23 = 23\%.
+$$
+
+
+%%%% 5 %%%%
+\item
+
+We are given 5 coins, two of them have heads on both sides, one of them has tails on both sides, and two of them are regular with heads on one side and tails on the other.  We pick a coin at random and throw it.  What is the probability that
+
+
+\begin{enumerate}
+\item 
+the bottom side shows heads while we can't see the upper side?
+
+\item
+the bottom side shows also heads if the upper side shows heads?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item Let $H_b$ be the event that the bottom of the tossed coin shows heads. Let $A$ be the event that the tossed coin is of the type with both sides heads, $B$ the event that the tossed coin is of the type with both sides tails, and $C$ the event that the tossed coin has one side heads and one side tails. 
+
+$$
+P[H_b] = P[H_b | A]P[A] + P[H_b | B]P[B] + P[H_c | C]P[C]
+= 1 \cdot \frac{2}{5} + 0 \cdot \frac{1}{5} + \frac{1}{2} \frac{2}{5} = \frac{3}{5}.
+$$
+
+\item
+
+Let $H_u$ be the event that the upper side of the tossed coin shows heads.
+
+\begin{align*}
+P[H_b | H_u] &= \frac{P[H_b \cap H_u]}{P[H_u]} \\
+&= \frac{P[H_b \cap H_u]}{P[H_u | A]P[A] + P[H_u|B]P[B] + P[H_u|C]P[C]} \\
+&= \frac{\frac{2}{5}}{1 \cdot \frac{2}{5} + 0\cdot \frac{1}{5} + \frac{1}{2} \frac{2}{5}} \\
+&=\frac{\frac{2}{5}}{\frac{3}{5}} = \frac{2}{3}
+\end{align*}
+
+
+\end{enumerate}
+
+%%%% 6 %%%%
+\item
+
+(Continuation from Assignment 3, problem 2) A person picks 13 cards out of a standard deck of 52.  Assume now that while picking one card is visible and the player recognizes the ace of hearts among the 13 cards.
+
+\begin{enumerate}
+\item
+
+What is now the probability that he has at least one ace in his hand?
+
+\item
+
+What is now the probability that he has exactly one ace in his hand?
+
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item The probability is 1 since the player knows that they have an ace in their hand.
+
+\item Let $A$ be the number of aces in the players hand. Let $A_h$ be the event that the player has the ace of hearts in hand.
+
+\begin{align*}
+P(A = 1 | A_h) &= \frac{P(A_h | A = 1)P(A = 1)}{P(A_h)} \\
+&= \frac{\frac{1}{4}\frac{\binom{4}{1}\binom{48}{12}}{\binom{52}{13}}}{\frac{\binom{51}{12}}{\binom{52}{13}}} \\
+&= \frac{1}{4}\frac{\binom{4}{1}\binom{48}{12}}{\binom{51}{12}} \\
+&= \frac{48!}{12!36!}\frac{12!39!}{51!} \\
+&= \frac{39 \cdot 38 \cdot 37}{51 \cdot 50 \cdot 49} \approx 48.33\%
+\end{align*}
+
+
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
