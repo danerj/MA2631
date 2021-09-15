@@ -1,0 +1,107 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage[shortlabels]{enumitem}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+\title{MA 2631 Conference 3}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+\begin{enumerate}
+
+%%% 1 %%%
+
+\item There are two urns. In the first urn there are 6 red and 2 black balls, in the second one 3 red and 7 black. We roll a (fair) die, and if the die shows a $1$ or $2$ we draw at random a ball from the first urn and in the case that the die shows a $3$, $4$, $5$, or $6$ we draw a ball at random from the second urn.
+\begin{itemize}
+	\item[a)] What is the probability that the drawn ball is red?
+	\item[b)] If the drawn ball is red, what is the probability that it was from the first urn?
+\end{itemize}
+
+
+Answer: Let $R$ be the event that the drawn ball is red, $U_1$ be the event that the ball was drawn from the first urn, and $U_2$ the event that the ball was drawn from the second urn.
+
+\begin{itemize}
+
+\item[a)] $\mathbb{P}[R] = \mathbb{P}[R  | U_1]\mathbb{P}[U_1] + \mathbb{P}[R | U_2] \mathbb{P}[U_2] = \frac{6}{8}\frac{2}{6} + \frac{3}{10}\frac{4}{6} = \frac{9}{20} = 45\%$.
+
+\item[b)] $\mathbb{P}[ U_1 | R] = \frac{\mathbb{P}[R | U_1]\mathbb{P}[U_1]}{\mathbb{P}[R | U_1] \mathbb{P}[U_1] + \mathbb{P}[R | U_2] \mathbb{P}[U_2]} = \frac{5}{9} \approx 55.56\%$.
+\end{itemize}
+
+
+%%% 2 %%%
+\item
+Two students participate in a quiz show where they are asked a true-false question. Both know, independently, the correct answer with probability $p$. Which of the following strategies is better for the team?
+
+\begin{itemize}
+	\item[i)] Choose a priori one of the two who will give the answer.
+	\item[ii)] Give the common answer if the answers agree, and if not flip a coin to decide which answer is given.
+\end{itemize}
+
+Answer: Calculate the probability of getting the question right under both strategies and compare:
+
+\begin{itemize}
+\item[i)]
+
+Using this strategy, the probability that the team gets the correct answer is $p$ since the chosen representative knows the answer with probability $p$. 
+
+\item[ii)]
+
+Let $A_1$ be the event that the first student has the correct answer, $A_2$ the event that the second student has the correct answer, $D$ the event that the students disagree, and $E$ the event that the team gets the correct answer. We want to find $\mathbb{P}[E]$. The event $E$ occurs if any of the events $A_1 \cap A_2$, $D \cap A_1$, or $D \cap A_2$ occurs, and these three events are mutually exclusive. Since $A_1$ and $A_2$ are independent, $A_1$ and $A_2^c$ are independent and $A_1^c$ and $A_2$ are independent.
+
+\begin{align*}
+\mathbb{P}[A_1 \cap A_2] &= p\cdot p = p^2 \\
+\mathbb{P}[D \cap A_1] &= \mathbb{P}[A_1 \cap A_2^c] = \mathbb{P}[A_1]\mathbb{P}[A_2^c] = p(1-p) \\
+\mathbb{P}[D \cap A_2] &= \mathbb{P}[A_1^c \cap A_2] = \mathbb{P}[A_1^c]\mathbb{P}[A_2^c] = (1-p)p \\
+\therefore \mathbb{P}[E] &= p^2 + \frac{1}{2}p(1-p) + \frac{1}{2}(1-p)p = p^2 + p - p^2 = p.
+\end{align*}
+
+The terms $p(1-p)$ and $(1-p)p$ were multiplied by 1/2 since they flip a coin if they disagree. Conclude that for 2 students that either of these strategies will get the team a correct answer with probability $p$. 
+
+\end{itemize}
+
+
+%%% 3 %%%
+
+\item Let $\Omega$ be a sample space and $E$, $F$, $G$ be independent events such that $\mathbb{P}[G]>0$. Show that the events $E$ and $F$ are independent when using instead of $\mathbb{P}$ the probability $\mathbb{Q}$ defined as $\mathbb{Q}[A] = P[A \, \vert G]$ for events $A$.\\
+
+Answer: Show that $\mathbb{Q}[E\cap F] = \mathbb{Q}[E] \mathbb{Q}[F]$. 
+
+\begin{align*}
+\mathbb{Q}[E\cap F] &= \mathbb{P}[E\cap F | G] \\
+&= \frac{\mathbb{P}[(E \cap F)\cap G]}{\mathbb{P}[G]} \\
+&= \frac{\mathbb{P}[E \cap F\cap G]}{\mathbb{P}[G]} \\
+&= \frac{\mathbb{P}[E]\mathbb{P}[F]\mathbb{P}[G]}{\mathbb{P}[G]} \\
+&= \frac{\mathbb{P}[E]\mathbb{P}[F]\mathbb{P}[G]}{\mathbb{P}[G]}\frac{\mathbb{P}[G]}{\mathbb{P}[G]} \\
+&= \frac{\mathbb{P}[E]\mathbb{P}[G]}{\mathbb{P}[G]}\frac{\mathbb{P}[F]\mathbb{P}[G]}{\mathbb{P}[G]}\\
+&= \frac{\mathbb{P}[E \cap G]}{\mathbb{P}[G]}\frac{\mathbb{P}[F \cap G]}{\mathbb{P}[G]} \\
+&= \mathbb{P}[E | G]\mathbb{P}[F | G] \\
+&= \mathbb{Q}[E]\mathbb{Q}[F].
+\end{align*}
+
+
+\end{enumerate}
+
+
+
+\end{document}
