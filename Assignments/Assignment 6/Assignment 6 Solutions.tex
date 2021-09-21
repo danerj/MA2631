@@ -1,0 +1,120 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 6}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+The picture on the last page (taken from
+https://www.mass.gov/info-details/covid-19-response-reporting) shows that
+in early September 2021, the percentage of positive Covid-tests were rising for both,
+higher education tests and non-higher education tests, though the overall positivity rate
+was actually slightly declining.\\
+
+At first sight this might look paradoxical, and you might even think that there might be
+an error. However, you should be able to explain this phenomenon with your knowledge
+about conditional probabilities and related theorems. Please do so.\\
+
+Answer: Let $HE$ be the event that the test was a higher education test and $NHE$ the event that test was a non-higher education test. Let $P$ be the event that the test is positive.
+
+$$
+\mathbb{P}[P] = \mathbb{P}[P | HE] \mathbb{P}[HE] + \mathbb{P}[P | NHE] \mathbb{P}[NHE]
+$$
+
+While both $mathbb{P}[P | HE]$ and $\mathbb{P}[P | NHE]$ may be increasing, the fact that $\mathbb{P}[HE]$ is increasing at the expense of $\mathbb{P}[NHE]$ (as more tests are beginning to be performed at higher education institutions) and that $\mathbb{P}[P|HE]$ is much smaller than $P[P | NHE]$ causes $\mathbb{P}[P]$ to decrease overall. 
+
+%%%% 2 %%%%
+\item
+
+Consider the random variable X with the probability mass distribution
+
+$$
+P[X = 1] = 0.3, \quad P[X = 4] = 0.25, \quad P[X = 7] = 0.4, \quad P[X = 10] = 0.05.
+$$
+
+Calculate the expected value of $X$ and $Y$ with $Y = 3X + 2$.
+
+Answer:
+
+$$
+E[X] = 0.3 \cdot 1 + 0.25 \cdot 4 + 0.4 \cdot 7 + 0.05 \cdot 10 = 4.6
+$$
+$$
+E[Y] = E[3X + 2] = 3E[X] + 2 = 15.8
+$$
+
+%%%% 3 %%%%
+\item
+
+Let $X$ be a random variable describing the number of failures before the first success of
+an independently repeated experiment with success probability $p = \frac{3}{4}$.
+
+\begin{enumerate}
+\item Calculate the probability that there are not more than two failures before the first success.
+
+\item Calculate $E[2^X]$.
+
+\end{enumerate}
+
+Answer: 
+
+\begin{enumerate}
+\item $P[X = 0] + P[X = 1] + P[X = 2] = \frac{3}{4}(1 + \frac{1}{4} + \frac{1}{16}) = \frac{63}{64} \approx 98.44\%$.
+
+\item $E[2^X] = \sum_{k=0}^\infty 2^k P[X = k] 
+= \sum_{k=0}^\infty 2^k \left(\frac{1}{4}\right)^k\frac{3}{4}
+= \sum_{k=0}^\infty \frac{3}{4}\left(\frac{1}{2}\right)^k = \frac{3}{4} \cdot 2 = \frac{3}{2}$.
+
+\end{enumerate}
+
+%%%% 4 %%%%
+\item 
+
+Let $X$ be a random variable taking values in $\mathbb{N}$. Show that $E[X] = \sum_{n=1}^\infty P[X \geq n]$. \\
+
+Answer: 
+
+$$
+\sum_{n=1}^\infty P[X \geq n]
+= \sum_{n=1}^\infty \sum_{k = n}^\infty P[X = k] 
+= \sum_{k=1}^\infty \sum_{n=1}^k P[X = k]
+= \sum_{k=1}^\infty kP[X=k]
+= E[X].
+$$
+
+
+
+
+\end{enumerate}
+
+\end{document}

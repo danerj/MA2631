@@ -1,0 +1,169 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 5}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Show that if $A$ and $B$ are independent events on a sample space $\Omega$, then also $A^c$ and $B$
+are independent. \\
+
+Answer: Rewriting $B$ as the union of disjoint sets $B = (A \cap B) \cup (A^c \cap B)$,
+
+$$
+P[B] = P[A\cap B] + P[A^c \cap B] 
+= P[A]P[B] + P[A^c \cap B] \implies P[A^c \cap B]
+= P[B](1-P[A]) = P[A^c]P[B].
+$$
+
+Since $P[A^c \cap B] = P[A^c]P[B]$, $A^c$ and $B$ are independent events. 
+
+%%%% 2 %%%%
+\item
+
+Suppose that $A$, $B$ and $C$ are independent events on a sample space $\Omega$ with $P[A \cap B] \neq 0$. Prove that
+
+$$
+P[A \cap C \vert A \cap B] = P[C].
+$$
+
+Answer:
+
+$$
+P[A \cap C \vert A \cap B]
+= \frac{P[(A\cap C) \cap (A\cap B)]}{P[A\cap B]}
+= \frac{P[A\cap B \cap C]}{P[A\cap B]}
+= \frac{P[A]P[B]P[C]}{P[A]P[B]}
+= P[C].
+$$
+
+%%%% 3 %%%%
+\item
+
+Assume that in a family the birth of a boy and a girl is equally likely and that the family has $n \geq 2$ children. Are the events $A$ and $B$ independent?\\
+
+$A$ : There is at least one boy and at least one girl in the family,\\
+$B$ : There is at most one girl in the family.\\
+
+Answer: Considering all the $2^n$ possibilities (by gender) of $n$ children and omitting the two cases where all children are the same gender, $P[A] = (2^n - 2)/2^n$. Considering the one case where there are no girls and the $n$ ways to have exactly one girl out of the $n$ children, $P[B] = (n+1)/2^n$. For $n\geq 2$, $A\cap B$ is the event that of the $n$ children, exactly one is a girl so that $P[A\cap B] = n/2^n$. The events $A$ and $B$ are independent iff
+
+$$
+P[A\cap B] = P[A]P[B] \iff \frac{n}{2^n} = \frac{2^n -2}{2^n}\frac{n+1}{2^n} \iff 2^{n-1} = n+1.
+$$
+
+For $n = 2$, $2^{n-1} = 2 \neq 3 = n+1$. For $n = 3$, $2^{n-1} = 4 = n+1$. We will next show by induction that $2^{n-1} > n+1$ for $n\geq 4$. \\
+
+For $n = 4, 2^{n-1} = 8 > 5 = n+1$. Assume that for some integer $n\geq 4$ that $2^{n-1} > n+1$. 
+
+$$
+2^{(n-1) + 1} = 2\cdot 2^{n-1} > 2 \cdot (n+1) = n+2 + n \geq n + 2 + 4 > n+2 = (n+1) + 1.
+$$
+
+Conclude that for $n \geq 4$, $2^{n-1} \neq n+1$ and therefore that $P[A\cap B] = P[A]P[B]$ iff $n = 3$. That is, $A$ and $B$ are independent iff there are $n = 3$ children in the family. 
+
+
+
+%%%% 4 %%%%
+\item
+
+Let $A, B, C$ be independent events on a sample space $\Omega$ with $P[A] = \frac{1}{2}$, $P[B] = \frac{2}{3}$, and $P[C] = \frac{3}{4}$. Calculate $P[A \cup (B\cap C)]$. 
+
+Answer:
+
+$$
+P[A \cup (B \cap C)]
+= P[A] + P[B\cap C] - P[A\cap B \cap C]
+= P[A] + P[B]P[C] - P[A]P[B]P[C]
+= \frac{1}{2} + \frac{2}{3}\frac{3}{4} - \frac{1}{2}\frac{2}{3}\frac{3}{4}
+= \frac{3}{4}.
+$$
+
+
+%%%% 5 %%%%
+\item
+
+Consider the probability mass distribution $P[Y = i] = c \cdot 0.1^i$ on the non-negative integers for some constant $c$.
+
+\begin{enumerate}
+\item Calculate $c$.
+
+\item Calculate $P[Y = 0]$ and $P[Y > 2]$.
+
+\item Calculate $P[Y \leq 5 \vert Y > 2]$.
+
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+
+$$
+1 = \sum_{i=0}^\infty P[Y = i] = \sum_{i=0}^\infty c \cdot 0.1^i = \frac{c}{.9} \implies c = 0.9 = \frac{9}{10}.
+$$
+
+\item
+
+$$
+P[Y = 0] = c \cdot 0.1^0 = c = 0.9.
+$$
+$$
+P[Y > 2] = 1 - P[Y\leq 2] = 1- (0.9 +0.09 + 0.009) = 0.001.
+$$
+
+\item
+
+$$
+P[Y \leq 5 \vert Y > 2]
+= \frac{P[2 < Y \leq 5]}{P[Y > 2]}
+= \frac{0.9 \cdot (0.1^3 + 0.1^4 + 0.1^5)}{0.001}
+= 0.999.
+$$
+
+\end{enumerate}
+
+%%%% 6 %%%%
+\item
+
+Assume you are flipping a fair coin until head appears the 5th time. Let $Y$ denote the number of tails that occur. Calculate the probability mass distribution of $Y$. \\
+
+Answer: The value $P[Y = n]$ for $n = 0,1,2,\dots$ should reflect the case the there are $n$ tails and $5$ heads in $n+5$ flips. The position of the 5th heads is then 'fixed' as the last position in the sequence. Then choose $n$ spots out of the remaining $n+4$ spots in which the $n$ tails' appear. 
+
+$$
+P[Y = n] = \binom{n+4}{n} \left(\frac{1}{2}\right)^n \left(\frac{1}{2}\right)^5 = \binom{n+4}{n} \frac{1}{2^{n+5}}.
+$$
+
+
+\end{enumerate}
+
+\end{document}
