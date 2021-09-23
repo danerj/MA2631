@@ -1,0 +1,124 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage[shortlabels]{enumitem}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+\title{MA 2631 Conference 4}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+\begin{enumerate}
+
+%%% 1 %%%
+\item
+
+Consider the random variable $X$ with the probability mass distribution
+\[
+\mathbb{P}[X= -1] = 0.3, \qquad \mathbb{P}[X = 2] = 0.5, \qquad \mathbb{P}[X = 5] = 0.1, \qquad \mathbb{P}[X=10] = 0.1.
+\]
+Calculate the expected value and variance of $X$ as well as the expectation of $Y$ with $Y = e^{X}$.
+
+\begin{align*}
+E[X] &= -1\mathbb{P}[X= -1] + 2\mathbb{P}[X= 2] + 5\mathbb{P}[X= 5] + 10\mathbb{P}[X= 10]\\
+&= (-1)(0.3) + (2)(0.5) + 5(0.1) + 10(0.1) \\
+&= \boxed{2.2} \\
+E[X^2] &= (-1)^2\mathbb{P}[X= -1] + 2^2\mathbb{P}[X= 2] + 5^2\mathbb{P}[X= 5] + 10^2\mathbb{P}[X= 10]\\
+&= (1)(0.3) + (4)(0.5) + 25(0.1) + 100(0.1) \\
+&= 14.8\\
+\text{Var}[X] &= E[X^2] - (E[X])^2 = 14.8 - 2.2^2\\
+&= \boxed{9.96}\\
+E[Y] &= E[e^X] = .3e^{-1} + .5e^2 + .1e^5 + .1e^{10} \\
+&\approx \boxed{2221.29}
+\end{align*}
+
+%%% 2 $$$
+\newpage
+
+\item
+Let $X$ be a Poisson distributed random variable with parameter $\lambda =2$.
+\begin{itemize}
+	\item[a)] Calculate
+	\[
+	\mathbb{P}\left[X \geq 2 \, \vert \, X \geq 1\right].
+	\]
+	\item[b)] Calculate
+	\[
+	E\left[ \frac{1}{X+1}\right].
+	\]
+\end{itemize}
+
+Answer:
+
+\begin{enumerate}[a)]
+\item
+
+\begin{align*}
+\mathbb{P}\left[X \geq 2 \, \vert \, X \geq 1\right]
+&= \frac{\mathbb{P}[\{X \geq 2\} \cap \{X \geq 1\}]}{\mathbb{P}[X \geq 1]}
+=\frac{\mathbb{P}[X \geq 2]}{\mathbb{P}[X \geq 1]}\\
+&= \frac{1 - \mathbb{P}[X < 2]}{1 - \mathbb{P}[X < 1]}\\
+&= \frac{1- \mathbb{P}[X = 0] - \mathbb{P}[X = 1]}{1- \mathbb{P}[X = 0]} \\
+&= \frac{1 - e^{-\lambda} - e^{-\lambda}\lambda}{1-e^{-\lambda}}\\
+&= \boxed{\frac{1 - 3e^{-2}}{1-e^{-2}} \approx 0.687}
+\end{align*}
+
+\item
+
+\begin{align*}
+E\left[\frac{1}{X+1}\right] &= \sum_{n=0}^\infty \frac{1}{1+n}e^{-\lambda} \frac{\lambda^n}{n!} \\
+&= \frac{1}{\lambda}\sum_{n=0}^\infty e^{-\lambda} \frac{\lambda^{n+1}}{(n+1)!} \\
+&= \frac{1}{\lambda}\sum_{m=1}^\infty e^{-\lambda} \frac{\lambda^m}{m!} \\
+&= \frac{1}{\lambda}\left(- e^{-\lambda} + \sum_{m=0}^\infty e^{-\lambda} \frac{\lambda^m}{m!} \right)\\
+&= \frac{1}{\lambda}(-e^{-\lambda} + 1) \\
+&= \boxed{\frac{1 - e^{-2}}{2} \approx 0.432}
+\end{align*}
+
+\end{enumerate}
+
+%%% 3 %%%
+\newpage
+\item
+Let $Y$ be a Poisson distributed random variable with parameter $\lambda$, where $\lambda$ is a non-negative integer. Calculate
+\[
+E\left[ \;\vert Y - \lambda \vert \;\right].
+\]
+
+\begin{align*}
+E[|Y - \lambda |] &= \sum_{k=0}^\infty |k - \lambda| \frac{\lambda^k}{k!}e^{-\lambda} \\
+&= \sum_{k=0}^{\lambda - 1} (\lambda-k) \frac{\lambda^k}{k!}e^{-\lambda} + \sum_{\lambda+1}^\infty (k - \lambda) \frac{\lambda^k}{k!}e^{-\lambda} \\
+&= \sum_{k=0}^{\lambda - 1} \lambda \frac{\lambda^k}{k!}e^{-\lambda} - \sum_{k=0}^{\lambda - 1} k \frac{\lambda^k}{k!}e^{-\lambda} + 
+\sum_{\lambda+1}^\infty k \frac{\lambda^k}{k!}e^{-\lambda} - 
+\sum_{\lambda+1}^\infty \lambda\frac{\lambda^k}{k!}e^{-\lambda} \\
+&= \lambda \left(
+\sum_{k=0}^{\lambda - 1} \frac{\lambda^k}{k!}e^{-\lambda} - \sum_{k=0}^{\lambda - 1}  \frac{\lambda^{k-1}}{(k-1)!}e^{-\lambda} + 
+\sum_{\lambda+1}^\infty \frac{\lambda^{k-1}}{(k-1)!}e^{-\lambda} - 
+\sum_{\lambda+1}^\infty \frac{\lambda^k}{k!}e^{-\lambda}
+\right) \\
+&= \lambda \left(\frac{\lambda^{\lambda-1}}{(\lambda-1)!}e^{-\lambda} + \frac{\lambda^\lambda}{\lambda!}e^{-\lambda}\right)\\
+&= \lambda \left(\frac{\lambda^{\lambda-1}}{(\lambda-1)!}e^{-\lambda} + \frac{\lambda^{\lambda-1}}{(\lambda-1)!}e^{-\lambda}\right) \\
+&= \boxed{\frac{2\lambda^\lambda}{(\lambda-1)!}e^{-\lambda}}
+\end{align*}
+
+\end{enumerate}
+\end{document}
