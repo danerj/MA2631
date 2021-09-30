@@ -1,0 +1,187 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 7}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Calculate the variance of $X$ and the variance of $Y = 3X+2$ for the random variable X with the probability mass distribution
+
+$$
+P [X = 1] = 0.3, \quad P [X = 4] = 0.25, \quad P [X = 7] = 0.4, \quad P [X = 10] = 0.05.
+$$
+
+Answer:
+
+\begin{align*}
+E[X] &= 4.6\\
+E[X^2] &= .3 + 4  + \frac{49 \cdot 2}{5} + 5 = 28.9\\
+\text{Var}[X] &= E[X^2] - E[X]^2 = 28.9 - 21.16 = \boxed{7.74}\\
+\text{Var}[Y] &= \text{Var}[3X+2] = 3^2 \text{Var}[X] = \boxed{69.66}
+\end{align*}
+
+\newpage
+%%%% 2 %%%%
+\item
+
+Suppose we pick a month at random from a non leap-year calendar and let $X$ be the number of days in that month. Find the mean and the variance of $X$.
+
+Answer:
+
+$$
+P[X = 28] = \frac{1}{12}, \quad P[X=30] = \frac{4}{12}, \quad P[X = 31] = \frac{7}{12}.
+$$
+
+\begin{align*}
+E[X] &= \frac{28 + 120 + 217}{12} = \boxed{\frac{365}{12} = 30.41\overline{6}}\\
+E[X^2] &= \frac{28^2 + 30^2\cdot 4 + 31^2 \cdot 7}{12} 
+= \frac{784 + 3600 + 6727}{12} = \frac{11,111}{12} = 925.91\overline{6} \\
+\text{Var}[X] &= E[X^2] - E[X]^2 = \frac{11,111}{12} - \frac{133,225}{144} = \boxed{\frac{107}{144} = .7430\overline{5}}
+\end{align*}
+
+\newpage
+%%%% 3 %%%%
+\item
+
+Let $Y$ be a binomial distributed random variable with $n$ trials of success probability $p$. Show that $\text{Var}[Y] = np(1-p)$. 
+
+Answer: $Y$ is characterized by $P[Y = k] = \binom{n}{k}p^k(1-p)^{n-k}$ for nonnegative integers $k$ and has mean $E[Y] = np$.
+
+\begin{align*}
+E[Y^2] &= \sum_{k=0}^\infty k^2 P[Y = k] = \sum_{k=0}^\infty k^2 \binom{n}{k} p^k(1-p)^{n-k} \\
+&= \sum_{k=1}^\infty k^2 \binom{n}{k} p^k(1-p)^{n-k} \\
+&= \sum_{k=1}^\infty kn \binom{n-1}{k-1} p^k(1-p)^{n-k} \quad \text{ identity: }k\binom{n}{k} = n\binom{n-k}{k-1} \\
+&= np \sum_{k=1}^\infty k \binom{n-1}{k-1}p^{k-1}(1-p)^{n-k} \\
+&= np \sum_{j=0}^\infty (j+1)\binom{n-1}{j} p^j(1-p)^{n-j-1} \\
+&= npE[X+1] \quad X \sim \text{Binomial}(n-1,p) \\
+&= np(E[X]+ 1) \\
+&= np((n-1)p + 1) \\
+&\\
+\text{Var}[Y] &= E[Y^2] - E[Y]^2 = np((n-1)p + 1) - (np)^2 \\
+&= (np)^2 - np^2 + np - (np)^2 \\
+&= np(1-p).
+\end{align*}
+
+
+
+\newpage
+%%%% 4 %%%%
+\item
+
+Let $Z$ be a geometric distributed random variable with success probability $p$. Calculate $\text{Var}[Z]$. \\
+
+Answer: 
+\begin{align*}
+P[Z = k] = (1-p)^kp, k = 0,1,2,\dots \\
+E[Z] &= \frac{1-p}{p} \\
+E[Z^2] &= \sum_{k=0}^\infty k^2(1-p)^kp \\
+&= p \sum_{k=1}^\infty ((k-1) + 1)^2(1-p)^k \\
+&= p \sum_{k=1}^\infty (k-1)^2(1-p)^k + p\sum_{k=1}^\infty 2(k-1)(1-p)^k + p \sum_{k=1}^\infty (1-p)^k \\
+&= (1-p)\sum_{j=0}^\infty j^2p(1-p)^j + 2(1-p)\sum_{j=0}^\infty jp(1-p)^j + (1-p) \\
+&= (1-p)E[Z^2] + 2(1-p)E[Z] + (1-p) \\
+E[Z^2](1 - (1-p)) &= 2(1-p)\frac{1-p}{p} + 1-p \\
+E[Z^2] &= \frac{1-p}{p}\left[\frac{2-2p}{p} + \frac{p}{p}\right] = \frac{(1-p)(2-p)}{p^2} \\
+&\\
+\text{Var}[Z] &= \frac{(1-p)(2-p)}{p^2} - \left(\frac{1-p}{p}\right)^2  = \frac{1-p}{p^2}(2-p-(1-p))\\
+&= \boxed{\frac{1-p}{p^2}}
+\end{align*}
+
+\newpage
+%%%% 5 %%%%
+\item
+
+Assume $X$ is a random variable that only takes on nonnegative integer values and satisfies
+
+$$
+P[X \geq n + i \vert X \geq n] = P[X \geq i], \quad n,i \geq 0.
+$$
+
+Show that X is a geometric distributed random variable.
+
+Answer: Let $p := P[X = 0]$. \\
+
+\underline{Lemma:} $P[X = n] = pP[X \geq n]$ for any nonnegative integer $n$. \\
+
+Proof. By the assumption, $P[X \geq i] = P[X \geq n+i \vert X \geq n] = P[X \geq n+i] / P[X \geq n]$. In particular for $i = 1$, 
+
+\begin{align*}
+1 - P[X = 0] = P[X \geq 1] &= \frac{P[X \geq n+1]}{P[X \geq n]} = 1 - \frac{P[X = n]}{P[X \geq n]} \\
+pP[X\geq n] &= P[X = 0]P[X \geq n] = P[X = n]
+\end{align*}
+
+\underline{Claim} $P[X = n] = (1-p)^np$, $n = 0,1,2,\dots $ \\
+
+Proof. For the base case $n = 0$, $P[X = 0] = pP[X \geq 0] = p = p(1-p)^0$ using the lemma. Assume the claim holds for some integer $n \geq 0$. 
+
+\begin{align*}
+P[X = n+1] &= pP[X \geq n+1] \quad \text{(Lemma)} \\
+&= p(P[X\geq n] - P[X =n]) \\
+&= p \left( \frac{P[X = n]}{p} - P[X =n] \right) \quad \text{(Lemma)} \\
+&= p((1-p)^n - p(1-p)^n) \quad \text{(Inductive Hypothesis)} \\
+&= p(1-p)^n(1-p) \\
+&= (1-p)^{n+1}p
+\end{align*} 
+
+This proves the claim, which shows that $X$ has the probability mass function as a geometrically distributed random variable.
+
+
+\newpage
+%%%% 6 %%%%
+\item
+
+The number of errors on a book page follow a Poisson distribution. It has been determined that on 10\% of the pages there is at least one error.
+
+\begin{enumerate}
+\item 
+Determine the parameter of the Poisson distribution.
+\item
+What is the expected number of errors on a page?
+\end{enumerate}
+
+Answer: $P[X = k] = e^{-\lambda}\frac{\lambda^k}{k!}$, $k = 0,1,2,\dots $
+
+\begin{enumerate}
+\item Let $P[X = k]$ be the probability that there are $k$ errors on a page. The given assumption that on 10\% of the pages there is a least one error means $P[X >0] = 0.1$.
+
+$$
+e^{-\lambda} \frac{\lambda^0}{0!} = P[X = 0] = P[X \leq 0] = 1- P[X > 0] = 0.9 \implies \lambda = \boxed{\ln 10/9 \approx .10536}
+$$
+
+\item
+
+$E[X] = \sum_{k=0}^\infty k e^{-\lambda} \frac{\lambda^k}{k!} = \lambda e^{-\lambda} \sum_{k=1}^\infty \frac{\lambda^{k-1}}{(k-1)!} = \lambda e^{-\lambda} \sum_{j=0}^\infty \frac{\lambda^j}{j!} = \lambda e^{-\lambda} e^{\lambda} = \lambda = \boxed{\ln 10/9 \approx .10536}$
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
