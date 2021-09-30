@@ -1,0 +1,165 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage[shortlabels]{enumitem}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+\title{MA 2631 Conference 5}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+The exponential random variable with parameter $\lambda >0$:
+
+$$
+f(x) = \begin{cases}
+\lambda e^{-\lambda x} & x \geq 0 \\
+0 & x < 0
+\end{cases}
+$$
+
+\begin{enumerate}
+
+%%% 1 %%%
+\item
+
+Let $X$ be an exponential random variable with parameter $\lambda$. Calculate Var$[X]$ in two ways:
+
+\begin{enumerate}
+\item By looking up $E[X]$ in the lecture notes, calculating $E[X^2]$ directly using the definition of expectation, and the formula Var$[X] = E[X^2] - (E[X])^2$;
+
+\item By deriving the moment generating function $M_X(t) = E[e^{tX}]$ (a challenge problem). 
+\end{enumerate}
+
+Answer: The work for (b) will be given:
+
+\begin{align*}
+M_X(t) &= E[e^{tX}] = \int_{-\infty}^\infty e^{tx}f(x) dx \\
+&= \int_{0}^\infty e^{tx}\lambda e^{-\lambda x} dx \\
+&= \lambda \int_0^\infty e^{(t-\lambda)x} dx \\
+&= \lambda \cdot \lim_{b \rightarrow \infty} \left[\frac{1}{t-\lambda}e^{(t-\lambda)x} \right]_{0}^b \\
+&= \frac{\lambda}{\lambda - t}, \quad \lambda > t
+\end{align*}
+
+For this calculation to be correct, we needed to assume that $\lambda > t$ (to avoid division by zero and to avoid a divergent integral). This assumption is ok since $\lambda >0$ and we will be using $t=0$ later on. \\
+
+Using $E[X^n] = M_X^{(n)}(0)$ (the $n^{\text{th}}$ derivative of the moment generating function evaluated at $t =0$),
+
+$$M_X'(t) = \frac{\lambda}{(\lambda - t)^2} \implies E[X] = M_X'(0) = \frac{1}{\lambda}$$
+$$M_X''(t) = \frac{2\lambda}{(\lambda - t)^3} \implies E[X^2] = \frac{2}{\lambda^2}$$
+$$\text{Var}(X) = E[X^2] - E[X]^2 = \frac{2}{\lambda^2} - \left(\frac{1}{\lambda}\right)^2 = \frac{1}{\lambda^2}. $$
+
+In general, $E[X^n] = \frac{n!}{\lambda^n}$. You could notice the pattern by taking a few more derivatives or derive this using infinite series:
+
+\begin{align*}
+M_X(t) &= \frac{\lambda}{\lambda - t}, \quad \lambda > t\\
+&= \frac{1}{1-t/\lambda} \\
+&= \sum_{n=0}^\infty \frac{1}{\lambda^n}t^n \quad \text{geometric series with ratio } t/\lambda, |t/\lambda|<1.
+\end{align*}
+
+But now compare $M_X(t) = \sum_{n=0}^\infty \frac{1}{\lambda^n}t^n$  with the Maclaurin series for $M_X(t)$:
+
+$$
+M_X(t) = \sum_{n=0}^\infty \frac{M_X^{(n)}(0)}{n!}t^n = \sum_{n=0}^\infty \frac{E[X^n]}{n!}t^n .
+$$
+
+Equating terms shows that $E[X^n] / n! = \frac{1}{\lambda^n} \implies E[X^n] = \frac{n!}{\lambda^n}$. In particular, $E[X] = \frac{1}{\lambda}$ and $E[X^2] = \frac{2}{\lambda^2}$, from which you can calculate the variance. 
+
+\newpage
+%%% 2 %%%
+\item
+
+Suppose that the length of a phone call in minutes is an exponential random variable with parameter $\lambda = \frac{1}{10}$. If someone arrives immediately ahead of you at public telephone booth, find the probability you will have to wait
+
+\begin{enumerate}
+\item more than 10 minutes;
+
+\item not more than one standard deviation away from the mean. 
+
+\end{enumerate}
+
+Answer: Let $X$ be your waiting time in minutes. The cumulative distribution function $F(x) = \int_{-\infty}^x f(y) dy$ was calculated in the lecture notes
+
+$$
+F(x) = 
+\begin{cases}
+0 & x < 0 \\ 1- e^{-\lambda x} & x \geq 0
+\end{cases}
+= 
+\begin{cases}
+0 & x < 0 \\ 1- e^{-x/10} & x \geq 0
+\end{cases}
+$$
+
+\begin{enumerate}
+\item $P[X > 10] = 1-P[X \leq 10] = 1- F(10) = 1-(1-e^{-\frac{1}{10}\cdot 10}) = e^{-1} \approx 0.368$
+
+\item  The mean $\mu$ is the expected value of $X$
+$$
+\mu = E[X] = \frac{1}{\lambda} = 10.$$
+
+The standard deviation $\sigma$ is the square root of the variance 
+$$\sigma = \sqrt{\text{Var}[X]} = \sqrt{1/\lambda^2} = 10.$$
+
+$$
+P[\mu - \sigma \leq X \leq \mu + \sigma] = P[0 \leq X \leq 20] = F(20) - F(0) = 1-e^{-\frac{20}{10}} - 0 = 1-e^{-2} \approx 0.865
+$$
+\end{enumerate}
+
+\newpage
+%%% 3 %%%
+\item We say that a nonnegative random variable $X$ is memoryless if
+
+$$P[X > s+t \vert X > t] = P[X > s] \quad \text{for all } s, t \geq 0.$$ 
+
+Show that an exponential random variable $X$ with parameter $\lambda$ is memoryless.\\
+
+Answer: Let $s,t \geq 0$ be arbitrary.
+
+\begin{align*}
+P[X > s+t \vert X > t] &= \frac{P[\{X > s+t\} \cap \{ X > t\}]}{P[X > t]} \\
+&= \frac{P[X > s+t]}{P[X > t]} \\
+&= \frac{1-P[ X \leq s+t]}{1 - P[X \leq t]} \\
+&= \frac{1 - F(s+t)}{1-F(t)} \\
+&= \frac{1 - (1 - e^{-\lambda(s+t)})}{1-(1-e^{-\lambda t})} \\
+&= \frac{e^{-\lambda s}e^{-\lambda t}}{e^{-\lambda t}} \\
+&= e^{-\lambda s} \\
+&= 1-(1-e^{-\lambda s}) \\
+&= 1 - F(s) \\
+&= 1-P[X \leq s] \\
+&= P[X > s] .
+\end{align*}
+
+%%% 4 %%%
+
+\item
+Suppose that the number of miles that a car can run before its battery wears out is exponentially distributed with an average value of $10,000$ miles. If a person desires to take a 5,000 mile trip, what is the probability that he or she will be able to complete the trip without having to replace the car battery?\\
+
+Answer: Let $X$ be the remaining number of miles (in thousands) before the car battery expires. Since $1/ \lambda = E[X] = 10$, $\lambda = 1/10$. The car battery may have been in use for some $m \geq 0$ miles before starting the trip. Considering the result from problem 3, it doesn't matter what $m$ is.
+
+$$
+P[X > m + 5 \vert X > m] = P[X > 5] = 1-P[X \leq 5] = 1-(1-e^{-\frac{1}{10}\cdot 5}) = e^{-\frac{1}{2}} \approx .607.
+$$
+
+\end{enumerate}
+\end{document}
