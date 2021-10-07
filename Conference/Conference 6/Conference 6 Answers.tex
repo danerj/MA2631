@@ -1,0 +1,187 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage[shortlabels]{enumitem}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+\title{MA 2631 Conference 6}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+
+
+\begin{enumerate}
+
+%%% 1 %%%
+\item
+
+In a small town, there are 50 births a year. Assume that the probability that a newborn is a girl is 50\%. How likely is it that in a given year, there are at least 25 and at most 27 girls born. Calculate this probability
+\begin{itemize}
+	\item[a)] exactly.
+	\item[b)] by an approximation with the normal distribution.
+\end{itemize}
+
+Answer:
+
+\begin{itemize}
+	
+	
+	\item[a)] Model this using a binomial distribution with 	$n = 50$ and success probability $p=\frac{1}{2}$. Denoting the number of newborn girls by $X$ we get
+	\begin{align*}
+	P[25 \leq X \leq 27] = &\binom{50}{25}\Bigl(\frac{1}{2}\Bigr)^{25} \Bigl(\frac{1}{2}\Bigr)^{25} + \binom{50}{26}\Bigl(\frac{1}{2}\Bigr)^{26} \Bigl(\frac{1}{2}\Bigr)^{24} + \binom{50}{27}\Bigl(\frac{1}{2}\Bigr)^{27} \Bigl(\frac{1}{2}\Bigr)^{23} \\
+	= & \frac{1}{2^{50}} \biggl( \binom{50}{25} + \binom{50}{26} + \binom{50}{27}\biggr)\\ \
+	= & \frac{50!}{23! \cdot 25! \cdot 2^{50}} \biggl( \frac{1}{24\cdot25} + \frac{1}{24\cdot 26} + \frac{1}{25\cdot26}\biggr) =  \frac{50!}{23! \cdot25! \cdot 2^{50} \cdot 208} \\
+	&\approx 31.62\%
+	\end{align*}
+	
+	\item[b)]
+	
+	Note that we have $\mu = E[X] = n \cdot p = 50 \cdot \frac{1}{2} = 25$ and $\sigma = \text{var}(X) = n \cdot p \cdot (1-p) = 12.5$. By approximation (with continuity correction) using a standard normal distribution $Z$
+	\begin{align*}
+	P[25 \leq X \leq 27] \approx &P\Bigl[ \frac{24.5 - 25}{\sqrt{12.5}} \leq Z \leq \frac{27.5 - 25}{\sqrt{12.5}}\Bigr] = \Phi\Bigl(\frac{2.5}{\sqrt{12.5}}\Bigr) - \Phi\Bigl(\frac{-0.5}{\sqrt{12.5}}\Bigr)\\
+	=& \Phi\Bigl(\frac{2.5}{\sqrt{12.5}}\Bigr) + \Phi\Bigl(\frac{-0.5}{\sqrt{12.5}}\Bigr) -1 \approx \Phi(0.7071) + \Phi(0.1414) - 1 \\
+	\approx & 0.7601 + 0.5563 -1 = 31.64\%
+	\end{align*}	
+	
+\end{itemize}
+
+
+\newpage
+%%% 2 %%%
+\item
+Consider a biased coin that shows {\em heads} in $\frac{2}{3}$ of all cases and {\em tails} only in $\frac{1}{3}$ of all cases. The coin is flipped consecutively (and independently) 200 times. 
+\begin{itemize}
+	\item[a)] What is the probability that {\em tails} shows up the first time at the 10th flip?
+	\item[b)] Calculate the probability  {\em heads}  shows up more than 150 times (using a suitable approximation). 
+
+\end{itemize}
+
+
+Answer:
+
+\begin{itemize}
+
+
+\item[a)] Let $X$ denote the number of {\em heads} before the first {\em tails}. Then $X$ is a geometric random variable with success probability $\frac{1}{3}$ and we have
+		\[ P[X=9] = \Bigl(1 - \frac{1}{3}\Bigr)^9 \cdot \frac{1}{3} = \frac{2^9}{3^{10}} \approx 0.8671\%.
+		\]
+		
+		
+		Let $Y$ be the number of heads out of the 200 flips. Then $Y$ is binomially distributed with $200$ trials and success probability $p = \frac{2}{3}$. Note that $E[Y] = 200 \cdot \frac{2}{3} = \frac{400}{3}$ and $\text{var}[Y] = 200 \cdot \frac{2}{3} \cdot \frac{1}{3} = \frac{400}{9}$. This means $\frac{Y - \frac{400}{3}}{\sqrt{\frac{400}{9}}}$ is approximately distributed as a standard normal random variable $Z$ and 
+
+		\begin{align*}
+		P[Y> 150] & = P\Biggl[ \frac{Y - \frac{400}{3}}{\sqrt{\frac{400}{9}}} > \frac{150 - \frac{400}{3}}{\sqrt{\frac{400}{9}}}\Biggr] \approx P\Biggl[ Z >\frac{\frac{50}{3}}{\frac{20}{3}} \Biggr] = P\Bigl[ Z > 2.5 \Bigr]\\& = 1- \Phi(2.5) = 0.62\%.
+		\end{align*}
+		[Note: alternative calculations lead to
+		\begin{align*}
+		P[Y \geq 151] &  \approx P\Biggl[ Z >\frac{\frac{53}{3}}{\frac{20}{3}} \Biggr] = P\Bigl[ Z > 2.65 \Bigr] = 1- \Phi(2.65) = 0.40\%,\\
+		P[Y \geq 150.5] &  \approx P\Biggl[ Z >\frac{\frac{51.5}{3}}{\frac{20}{3}} \Biggr] = P\Bigl[ Z > 2.575 \Bigr] = 1- \Phi(2.575) = 0.5\%,
+		\end{align*}
+		the last one incorporating the continuity correction.]
+
+\end{itemize}
+
+
+\newpage
+%%% 3 %%%
+\item 
+
+Assume that the joint probability mass distribution $p_{X,Y}$ of the random variable $X$ and $Y$ is given by
+\begin{align*}
+p_{X,Y}(0,0) =& \frac{1}{3} \qquad p_{X,Y}(0,1)= \frac{1}{4};\\
+p_{X,Y}(1,0) =& \frac{1}{4} \qquad  p_{X,Y}(1,1) = \frac{1}{6}.
+\end{align*}
+
+\begin{itemize}
+	\item[a)] Calculate the marginal probability mass distributions $p_X$ and $p_Y$.
+%	\item[b)] Calculate the covariance and correlation of $X$ and $Y$
+	\item[b)] What is the probability mass distribution of the random variable $Z = X^2 + Y$?
+\end{itemize}
+
+Answer:
+
+\begin{itemize}
+		\item[a)]
+		\begin{align*}
+		p_X(0) = &p_{X,Y}(0,0) + p_{X,Y}(0,1) = \frac{1}{3} + \frac{1}{4} = \frac{7}{12}\\
+		p_X(1) = &p_{X,Y}(1,0) + p_{X,Y}(1,1) = \frac{1}{4} + \frac{1}{6} = \frac{5}{12}\\
+		p_Y(0) = &p_{X,Y}(0,0) + p_{X,Y}(1,0) = \frac{1}{3} + \frac{1}{4} = \frac{7}{12}\\
+		p_Y(1) = &p_{X,Y}(0,1) + p_{X,Y}(1,1) = \frac{1}{4} + \frac{1}{6} = \frac{5}{12}.
+		\end{align*}
+		
+		\item[b)] The possible values that $Z$ could take on are 0,1, and 2.
+		
+		\begin{align*}
+		P[Z = 0] &= P[X^2 + Y = 0] = P[X = 0, Y = 0] = p_{X,Y}(0,0) = \frac{1}{3} \\
+		P[Z = 1] &= P[X^2 + Y = 1] = P[X = 1, Y = 0] + P[X = 0, Y = 1] = p_{X,Y}(1,0) + p_{X,Y}(0,1) = \frac{1}{2} \\
+		P[Z = 2] &= P[X^2 + Y = 2] = P[X = 1, Y = 1] = p_{X,Y}(1,1) = \frac{1}{6} \\
+		\end{align*}
+		
+\end{itemize}
+
+
+\newpage
+%%% 4 %%%
+\item
+
+Assume that $X$ and $Y$ are jointly distributed random variables with joint density 
+\[
+f_{X,Y}(x,y) = \left\{ \begin{array}{ll} cy e^{-x} & \mbox{if } 0 \leq x < \infty, \, 0 \leq y \leq 1;\\ 0  & \mbox{else}.\end{array} \right.
+\]
+for some $c \in \mathbb{R}$.
+\begin{itemize}
+	\item[a)] Calculate $c$.
+	\item[b)] Calculate the marginal probability density functions $f_X$ and $f_Y$.
+	\item[c)] What is the probability $P[ 3X+ Y^2 > 4]$?
+\end{itemize}
+
+Answer:
+
+\begin{itemize}
+		\item[a)] As the density has to integrate up to one, we have
+		\begin{align*}
+		1 &= \int_{-\infty}^\infty \int_{-\infty}^\infty  f_{X,Y}(x,y) \, dxdy \\
+		&= \int_0^1 \int_0^\infty  cy e^{-x} \, dxdy = c \biggl(\int_0^\infty e^{-x} \, dx \biggr)\biggl(\int_0^1  y dy \biggr)\\
+		&= c \Bigl[-e^{-x}\Bigr]_0^\infty \Bigl[\frac{y^2}{2}\Bigr]_0^1 = c \cdot 1 \cdot \frac{1}{2} = \frac{c}{2},
+		\end{align*}
+		$$ \boxed{c=2}$$
+		
+		\item[b)] 
+		\[
+		f_X(x) = \int_{-\infty}^\infty f_{X,Y}(x,y) \, dy = \left\{ \begin{array}{ll} \int_0^1 2y e^{-x} \, dy = 2 e^{-x}\bigl[\frac{y^2}{2}\bigr]_0^1 = e^{-x} & \mbox{ if } x \geq 0; \\ 0 & \mbox{ if } x < 0. \end{array}\right. 
+		\]
+		\[
+		f_Y(y) = \int_{-\infty}^\infty f_{X,Y}(x,y) \, dx = \left\{ \begin{array}{ll} \int_0^\infty 2y e^{-x} \, dx = 2 y \bigl[- e^{-x}\bigr]_0^\infty = 2y & \mbox{ if } 0  \leq y \leq 1; \\ 0 & \mbox{ else. } \end{array}\right.
+		\]
+		\item[c)]
+		\begin{align*}
+		P[3X+ Y^2 > 4] & = \iint_{\{(x,y)\in [0,\infty) \times [0,1]\, :\, 3x+ y^2 > 4)\}}  f_{X,Y}(x,y) \, dxdy \\ & = \iint_{\{(x,y)\in [0,\infty) \times [0,1]\, :\, x > \frac{4- y^2}{3}\}}  f_{X,Y}(x,y) \, dxdy \\ & =\int_0^1 \int_{\frac{4- y^2}{3}}^\infty 2y e^{-x} \, dx dy = \int_0^1  2y \Bigl[- e^{-x}\Bigr]_{\frac{4- y^2}{3}}^\infty \, dy \\
+		& =  \int_0^1  2y e^{-\frac{4- y^2}{3}} \, dy  =  3 e^{-\frac{4}{3}}\int_0^1  \frac{2y}{3} e^{\frac{y^2}{3}} \, dy   =3 e^{-\frac{4}{3}}\Bigl[  e^{\frac{y^2}{3}}\Bigr]_0^1 \\
+		& =3 e^{-\frac{4}{3}}\Bigl(  e^{\frac{1}{3}} -1\Bigr) = 3 e^{-1} - 3e^{-\frac{4}{3}} \approx 31.28\%.
+		\end{align*}
+	\end{itemize}
+
+\end{enumerate}
+
+\end{document}

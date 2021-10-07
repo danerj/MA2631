@@ -1,0 +1,87 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage[shortlabels]{enumitem}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+
+\title{MA 2631 Conference 6}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+
+
+\begin{enumerate}
+
+%%% 1 %%%
+\item
+
+In a small town, there are 50 births a year. Assume that the probability that a newborn is a girl is 50\%. How likely is it that in a given year, there are at least 25 and at most 27 girls born. Calculate this probability
+\begin{itemize}
+	\item[a)] exactly.
+	\item[b)] by an approximation with the normal distribution.
+\end{itemize}
+
+
+%%% 2 %%%
+\item
+Consider a biased coin that shows {\em heads} in $\frac{2}{3}$ of all cases and {\em tails} only in $\frac{1}{3}$ of all cases. The coin is flipped consecutively (and independently) 200 times. 
+\begin{itemize}
+	\item[a)] What is the probability that {\em tails} shows up the first time at the 10th flip?
+	\item[b)] Calculate the probability  {\em heads}  shows up more than 150 times (using a suitable approximation). 
+
+\end{itemize}
+
+%%% 3 %%%
+\item 
+
+Assume that the joint probability mass distribution $p_{X,Y}$ of the random variable $X$ and $Y$ is given by
+\begin{align*}
+p_{X,Y}(0,0) =& \frac{1}{3} \qquad p_{X,Y}(0,1)= \frac{1}{4};\\
+p_{X,Y}(1,0) =& \frac{1}{4} \qquad  p_{X,Y}(1,1) = \frac{1}{6}.
+\end{align*}
+
+\begin{itemize}
+	\item[a)] Calculate the marginal probability mass distributions $p_X$ and $p_Y$.
+%	\item[b)] Calculate the covariance and correlation of $X$ and $Y$
+	\item[b)] What is the probability mass distribution of the random variable $Z = X^2 + Y$?
+\end{itemize}
+
+%%% 4 %%%
+
+\item
+
+Assume that $X$ and $Y$ are jointly distributed random variables with joint density 
+\[
+f_{X,Y}(x,y) = \left\{ \begin{array}{ll} cy e^{-x} & \mbox{if } 0 \leq x < \infty, \, 0 \leq y \leq 1;\\ 0  & \mbox{else}.\end{array} \right.
+\]
+for some $c \in \mathbb{R}$.
+\begin{itemize}
+	\item[a)] Calculate $c$.
+	\item[b)] Calculate the marginal probability density functions $f_X$ and $f_Y$.
+	\item[c)] What is the probability $P[ 3X+ Y^2 > 4]$?
+\end{itemize}
+
+\end{enumerate}
+
+\end{document}
