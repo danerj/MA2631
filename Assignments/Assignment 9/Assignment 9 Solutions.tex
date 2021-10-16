@@ -1,0 +1,231 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 9}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Let $X$ be a continuous random variable with density $f$, expectation $E[X] = \mu$, and variance $\text{Var}[X] = \sigma^2$. Define a new random variable $Y:= aX+b$ for some $a,b \in \mathbb{R}$. 
+
+\begin{enumerate}
+\item Calculate the standard deviation $\text{SD}[Y]$. 
+
+\item Express the moment generating function $m_Y$ in terms of $m_X$. 
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+$$
+\text{Var}[Y] = \text{Var}[aX + b] = a^2 \text{Var}[X] = a^2\sigma^2 \implies \text{SD}[Y] = \sqrt{\text{Var}[X]} = \boxed{a\sigma}
+$$
+
+\item
+$$
+m_X(t) = E[e^{tx}]
+$$
+$$
+m_Y(t) = E[e^{ty}] = E[e^{t(aX+b)}]
+= e^{tb}E[e^{t(aX)}] = \boxed{e^{tb}m_X(at)}
+$$
+\end{enumerate}
+
+\newpage
+%%%% 2 %%%%
+\item
+
+Prove that for an arbitrary continuous random variable $X$ with density $f$ we have 
+
+$$
+E[X] = \int_0^\infty P[X > x] dx - \int_0^\infty P[X < -x] dx .
+$$
+
+Answer: 
+
+\begin{align*}
+\int_0^\infty P[X > x] dx &= \int_0^\infty \int_x^\infty P[X = y] dy dx \\
+&= \int_0^\infty \int_0^y P[X = y] dx dy \\
+&= \int_0^\infty y P[X = y] dy \\
+&= \int_0^\infty xP[X = x] dx
+\end{align*}
+\begin{align*}
+\int_0^\infty P[X < -x] dx &= \int_0^\infty \int_{-\infty}^{-x} P[X = y] dy dx \\
+&= \int_{-\infty}^0 \int_0^{-y} P[X = y] dx dy \\
+&= \int_{-\infty}^0 -y P[X = y] dy \\
+&= -\int_{-\infty}^0 xP[X = x] dx
+\end{align*}
+\begin{align*}
+\int_0^\infty P[X > x] dx \;- \int_0^\infty P[X < -x] dx &= 
+\int_0^\infty xP[X = x] dx \;+ \int_{-\infty}^0 x P[X = x] dx \\
+&=
+\int_{-\infty}^\infty xP[X = x] dx 
+\equiv E[X]
+\end{align*}
+
+
+%%%% 3 %%%%
+\item
+
+Assume that $U^{0,1}$ is a uniformly distributed random variable on the unit interval. Find a real-valued function $g: [0,1) \rightarrow \mathbb{R}$ such that $Y := g(U^{0,1})$ is an exponentially distributed random variable with parameter $\lambda > 0$. 
+
+Answer: We want $Y$ to have cdf $F_Y(y) = 1 - e^{-\lambda y}$. Solve $x = F_Y(y)$ for $x$ to find $F_Y^{-1}(x) = y$. 
+
+$$
+1 - x = e^{- \lambda y} \implies
+F_Y^{-1}(x) = y = - \frac{1}{\lambda}\ln (1-x)
+$$
+
+If we generate an $x_0$ from $X \sim U^{0,1}$ and compute $y_0 = - \frac{1}{\lambda}\ln (1-x_0)$, this $y_0$ follows the exponential distribution with parameter $\lambda$. 
+
+$$
+\boxed{ \therefore \quad g(x) = - \frac{1}{\lambda}\ln (1-x)}
+$$
+
+\newpage
+%%%% 4 %%%%
+\item
+
+The lifetime of an electrical device (in months) is given by the continuous variable $X$ with density 
+
+$$
+f(x) = \begin{cases}
+cxe^{-\frac{x}{2}} & x > 0 \\
+0 & x \leq 0
+\end{cases}
+$$
+
+\begin{enumerate}
+\item Calculate $c$.
+
+\item What is the probability the device functions more than 5 months?
+
+\item What is the expected lifetime of the device?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+
+$$
+\frac{1}{c} = \int_0^\infty xe^{-\frac{x}{2}} dx 
+= \left[-2xe^{-\frac{x}{2}} + 2\int e^{-\frac{x}{2}} dx \right] \biggr\vert_0^\infty 
+= -4e^{- \frac{x}{2}}\biggr \vert_0^\infty 
+= -4(0-1) 
+= 4 \implies \boxed{c = \frac{1}{4}} 
+$$
+
+\item 
+
+$$
+P[X > 5] = \int_5^\infty f(x) dx = \frac{1}{4}\left[-2xe^{-\frac{x}{2}} - 4e^{-\frac{x}{2}}\right] \biggr \vert_5^\infty = \frac{1}{4}[(0-0) - (-10e^{-\frac{5}{2}} - 4e^{-\frac{5}{2}})] = \boxed{\frac{7}{2}e^{-\frac{5}{2}} \approx 0.287}
+$$
+
+\item
+
+$$
+E[X] = \frac{1}{4}\int_0^\infty x^2 e^{-\frac{x}{2}} dx 
+= \frac{1}{4}\left[-2x^2e^{-\frac{x}{2}} + 4\int xe^{-\frac{x}{2}} dx \right]\biggr \vert_0^\infty 
+= \frac{1}{4}[0 + 4 \cdot 4] = \boxed{4}
+$$
+\end{enumerate}
+
+%%%% 5 %%%%
+\item
+
+Assume that $X$ is an exponentially distributed random variable with parameter $\lambda > 1$. Calculate:
+
+\begin{enumerate}
+\item $E[X^3]$
+
+\item $E[e^X]$ 
+\end{enumerate}
+
+Why did we impose the condition $\lambda > 1$ instead of the "usual" condition $\lambda > 0$?
+
+Answer:
+
+\begin{enumerate}
+\item
+
+\begin{align*}
+m_X(t) &= E[e^{tX}] = \int_{-\infty}^\infty e^{tx} f(x) dx = \int_0^\infty \lambda e^{tx}e^{-\lambda x} dx = \frac{\lambda}{\lambda - t} \quad (t < \lambda) \\
+m_X'''(t) &= \frac{3!\lambda}{(\lambda - t)^4}\\
+E[X^3] &= m_X'''(0) = \boxed{\frac{6}{\lambda^3}} \quad (\text{Note } \lambda > 1 > 0 = t)
+\end{align*}
+
+\item
+
+\begin{align*}
+E[e^X] &= \int_0^\infty \lambda e^x e^{-\lambda x} dx =
+\lambda \int_0^\infty e^{(1-\lambda)x} dx 
+= \frac{\lambda}{1 -\lambda}e^{(1-\lambda) x} \biggr\vert_0^\infty
+= \boxed{\frac{\lambda}{\lambda - 1} \quad (\lambda > 1)}
+\end{align*}
+
+It's necessary to require $\lambda > 1$ since $\int_0^\infty \lambda e^{(1-\lambda)x} dx$ diverges to $+\infty$ for $\lambda \leq 1$.
+\end{enumerate}
+
+\newpage
+%%%% 6 %%%%
+\item
+
+Find the cumulative distribution function $F$ such that $F$ has hazard rate $\lambda(t) = \frac{1}{\sqrt{t}}$ for $t > 0$. If possible, express $F$ in terms of an exponentially distributed random variable. 
+
+Answer: Given the hazard rate $\lambda(t) = \frac{f(t)}{\overline{F}(t)} = -\frac{\overline{F}'(t)}{\overline{F}(T)} = -(\log \overline{F}(t))'$ we have
+$\log \overline{F}(t) = -\int_0^t \lambda(s) ds + c$ for some $c \in \mathbb{R}$.
+
+\begin{align*}
+\log \overline{F}(t) &= -\int_0^t \frac{1}{\sqrt{s}} dx + c= -2\sqrt{t} + c \\
+\overline{F}(t) &= e^c e^{-2\sqrt{t}} \\
+1 &= 1-0 = 1-F(0) = \overline{F}(0) = e^c \\
+\overline{F}(t) &= e^{-2\sqrt{t}} \\
+F(t) &= 1- \overline{F}(t) = 1-e^{-2\sqrt{t}}, \quad t > 0 \\
+f(t) &= 2e^{-2\sqrt{t}}, \quad t > 0
+\end{align*}
+
+The cdf of an exponentially distributed random variable $X$ with parameter $\lambda = 2$ is $G(x) = 1 - e^{-2 x}$ for $x \geq 0$ and $G(x) = 0$ for $x < 0$. By setting $F(t) = 0$ for $t < 0$ we have
+
+$$
+F(t) = \begin{cases}
+G(\sqrt{t}) & t \geq 0 \\
+0 & t < 0
+\end{cases}
+$$
+
+
+
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,270 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 8}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Assume you have three four-sided dice with the numbers 1,2,3, and 4 on the four sides and let $X$ be the sum of the numbers shown on their bottom side. Write down and sketch the probability mass function and cumulative distribution function of $X$. \\
+
+Answer: 
+\begin{align*}
+P[X = 3] &= \frac{1}{64} \\
+P[X =  4] &= \frac{3}{64} \\
+P[X =  5] &= \frac{6}{64}  \\
+P[X =  6] &= \frac{10}{64}  \\
+P[X =  7] &= \frac{12}{64}  \\
+P[X =  8] &= \frac{12}{64}  \\
+P[X =  9] &= \frac{10}{64}  \\
+P[X =  10] &= \frac{6}{64}  \\
+P[X =  11] &= \frac{3}{64}  \\
+P[X =  12] &= \frac{1}{64}  \\
+\end{align*}
+
+See the file "Assignment 8 Notes.pdf" for sketches of the probability mass function and cumulative distribution function of $X$. 
+
+
+%%%% 2 %%%%
+\item
+
+The probability mass function of a geometric random variable is given by $p(n) = (1-p)^np$ for non-negative integers $n$ and some parameter $p \in (0,1)$. Calculate and sketch the cumulative distribution function of a geometric random variable. \\
+
+Answer: Let $X$ be a geometric random variable with success probability $p$.  For $x \leq 0$, $F(x) = 0$. For $x > 0$,
+
+$$
+F(x) = \sum_{n=0}^{\lfloor x \rfloor} (1-p)^np = 1- (1-p)^{\lfloor x \rfloor}
+$$
+
+See the file "Assignment 8 Notes.pdf" for a sketch of the cumulative distribution function of $X$. 
+
+\newpage
+%%%% 3 %%%%
+\item
+
+You arrive at a random time at a bus stop and you know that a bus arrives every 30 minutes. Let $Y$ be the random variable describing your wait time in minutes. 
+
+\begin{enumerate}
+
+\item
+What is the probability you will have to wait longer than 10 minutes?
+
+\item
+Assume that you have waiting at the bus stop for 10 minutes. What is the probability the bus will arrive in the next 10 minutes given that you have already been waiting for 10 minutes?
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+\begin{align*}
+f_Y(t) &= \begin{cases}
+		\frac{1}{30} & t \in (0,30) \\
+		0 & t \notin (0,30)
+		\end{cases} \\
+P[Y \geq 10] &= \int_{10}^\infty f_Y(t)  dt = \int_{10}^{30} \frac{1}{30} dt = \boxed{\frac{2}{3}}
+\end{align*}
+
+\item
+$$
+P[Y \leq 20 | Y > 10] = \frac{P[10 < Y \leq 20]}{P[Y > 10]}
+= \frac{\int_{10}^{20} f_y(t) dt}{\int_{10}^\infty f_y(t)}
+= \frac{\int_{10}^{20} \frac{1}{30} dt}{\int_{10}^{30} \frac{1}{30}} = \boxed{\frac{1}{2}}
+$$
+
+\end{enumerate}
+
+%%%% 4 %%%%
+\item
+Assume that a random variable $X$ has density of the form $f_X(x) = cg(x)$ for some constant $c \in \mathbb{R}$ and 
+
+$$
+g(x) =
+	\begin{cases}
+	0 & x < 0 \\
+	x & 0 \leq x < 5 \\
+	10-x & 5 \leq x < 10 \\
+	0 & x \geq 10
+	\end{cases}
+$$
+
+\begin{enumerate}
+\item 
+Determine the value of the constant $c$ and sketch the density function $f_X$. 
+
+\item
+Calculate $P[3 \leq X \leq 8]$.
+
+\item
+Calculate and sketch the cumulative distribution function $F_X$ of $X$. 
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+$$
+1 = \int_{-\infty}^\infty f_X(x) dx = \int_{-\infty}^\infty cg(x) dx
+= c\left[\int_0^5 x dx + \int_5^{10} (10-x) dx \right]
+= c\left( \frac{25}{2} + \frac{25}{2} \right) = 25c
+$$
+$$
+c = \boxed{\frac{1}{25}}
+$$
+
+See the file "Assignment 8 Notes.pdf" for a sketch of $f_X$. 
+
+\item
+$$
+P[3 \leq X \leq 8] = \int_3^8 f_X(x) dx = \int_3^5 \frac{x}{25} dx + \int_5^8 \frac{10-x}{25} dx = \frac{8}{25} + \frac{21}{50} = \boxed{\frac{37}{50}}
+$$
+
+\item 
+$$
+F_X(x) = \int_{-\infty}^x f_X(t) dt =
+\begin{cases}
+0 & x \leq 0 \\
+\frac{1}{50}x^2 & 0 < x \leq 5 \\
+-\frac{1}{50}x^2 + \frac{2}{5}x - 1 & 5 < x \leq 10 \\
+1 & x \geq 10
+\end{cases}
+$$
+
+See the file "Assignment 8 Notes.pdf" for a sketch of $F_X$. 
+\end{enumerate}
+
+\newpage
+%%%% 5 %%%%
+\item
+
+Assume that a random variable $Y$ has a density of the form $f_X(x) = cg(x)$ for some constant $c \in \mathbb{R}$ and 
+
+$$
+g(x) = \begin{cases}
+0 & x < 0 \\
+\sin x & 0 \leq x < \pi \\
+0 & x \geq \pi
+\end{cases}
+$$
+
+\begin{enumerate}
+\item Determine the value of the constant $c$ and sketch the density of function $f_X$. 
+
+\item Calculate $P[X \geq \frac{\pi}{6} \vert X \leq \frac{2\pi}{3}]$. 
+
+\item Calculate and sketch the cumulative distribution function $F_X$ of $X$. 
+\end{enumerate}
+
+Answer: 
+
+\begin{enumerate}
+\item
+$$
+1 = \int_{-\infty}^\infty f_X(x) dx = \int_0^\pi c\sin x dx = c(\cos 0 - \cos \pi ) = 2c \implies \boxed{c = \frac{1}{2}}
+$$
+
+See the file "Assignment 8 Notes.pdf" for a sketch of $f_X$.
+
+\item  
+\begin{align*}
+P[X \geq \frac{\pi}{6} \vert X \leq \frac{2\pi}{3}] &= \frac{P[\frac{\pi}{6} \leq X \leq \frac{2\pi}{3}]}{P[X \leq \frac{2\pi}{3}]} \\
+&= \frac{\int_{\pi/6}^{2\pi / 3} \frac{1}{2}\sin x dx}{\int_{0}^{2\pi / 3} \frac{1}{2}\sin x dx} \\
+&= \frac{\cos \frac{\pi}{6} - \cos \frac{2\pi}{3}}{\cos 0 - \cos \frac{2\pi}{3}} \\
+&= \frac{\frac{\sqrt{3}}{2} - \frac{1}{2} }{1 - \frac{1}{2}}\\ 
+&= \boxed{\sqrt{3} - 1 \approx 0.732}
+\end{align*}
+
+\item 
+$$
+F_X(x) = \int_{-\infty}^x f_x(t) dt =
+\begin{cases}
+0 & x \leq 0 \\
+(1-\cos x) / 2 & 0 < x < \pi \\
+1 & x \geq \pi
+\end{cases}
+$$
+
+See the file "Assignment 8 Notes.pdf" for a sketch of $F_X$. 
+\end{enumerate}
+
+
+\newpage
+%%%% 6 %%%%
+\item
+
+Let $X$ be a continuous random variable with density
+
+$$
+f(x) = \begin{cases}
+cx^2e^{-x} & x \in [0,1] \\
+0 & x \notin [0,1]
+\end{cases}
+$$
+
+\begin{enumerate}
+\item Determine the value of the constant $c$.
+
+\item Calculate the expectation of $X$. 
+\end{enumerate}
+
+Answer: 
+
+\begin{enumerate}
+\item 
+
+\begin{align*}
+\frac{1}{c} &= \int_0^1 x^2 e^{-x} dx \\
+&= \left[-x^2e^{-x} + 2\int xe^{-x} dx \right] \biggr\vert_0^1 \\
+&= \left[-x^2e^{-x} + 2\left(-xe^{-x} + \int e^{-x} dx\right) \right] \biggr\vert_0^1 \\
+&= \left[-x^2e^{-x} + 2\left(-xe^{-x} -  e^{-x}\right) \right] \biggr\vert_0^1 \\
+&= \left[-x^2e^{-x} - 2xe^{-x} -  2e^{-x} \right] \biggr\vert_0^1 \\
+&= \left[-e^{-x}(x^2 + 2xe^{-x} + 2) \right] \biggr\vert_0^1 \\
+&= 2-\frac{5}{e} \\
+\implies c &= \boxed{\frac{1}{2 - 5/e} = \frac{e}{2e - 5}}
+\end{align*}
+
+\item
+
+\begin{align*}
+E[X] &= c\int_0^1 x^3e^{-x} \\
+&= c\left[-x^3e^{-x} + 3\int x^2e^{-x} dx \right] \biggr\vert_0^1 \\
+&= c\left[-x^3e^{-x} + 3\left( -x^2 e^{-x} + 2\int xe^{-x} dx\right) \right] \biggr\vert_0^1 \\
+&= c\left[-x^3e^{-x} -3x^2 e^{-x} - 6 xe^{-x} - 6e^{-x}\right]\biggr\vert_0^1 \\
+&= c\left[6 - \frac{16}{e}\right] \\
+&= \boxed{\frac{6-16/e}{2-5/e} = \frac{6e - 16}{2e - 5}}
+\end{align*}
+\end{enumerate}
+
+
+\end{enumerate}
+
+\end{document}
