@@ -1,0 +1,245 @@
+\documentclass{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{fullpage}
+\usepackage{graphicx}
+\usepackage{float}
+
+
+\makeatletter
+\def\moverlay{\mathpalette\mov@rlay}
+\def\mov@rlay#1#2{\leavevmode\vtop{%
+   \baselineskip\z@skip \lineskiplimit-\maxdimen
+   \ialign{\hfil$\m@th#1##$\hfil\cr#2\crcr}}}
+\newcommand{\charfusion}[3][\mathord]{
+    #1{\ifx#1\mathop\vphantom{#2}\fi
+        \mathpalette\mov@rlay{#2\cr#3}
+      }
+    \ifx#1\mathop\expandafter\displaylimits\fi}
+\makeatother
+
+\newcommand{\cupdot}{\charfusion[\mathbin]{\cup}{\cdot}}
+\newcommand{\bigcupdot}{\charfusion[\mathop]{\bigcup}{\cdot}}
+
+\title{MA 2631 Assignment 11}
+\author{Hubert J. Farnsworth}
+
+\setlength\parindent{0pt}
+\begin{document}
+\maketitle
+
+\begin{enumerate}
+
+%%%% 1 %%%%
+\item
+
+Let $X, Y$ be two random variables with joint cdf $F_{X,Y}$ and marginal cdfs $F_X , F_Y$. For $x,
+y \in \mathbb{R}$, express $P[X > x; Y \leq y]$
+in terms of $F_{X,Y}$, $F_X$ , and $F_Y$.\\
+
+Answer:
+\begin{align*}
+&\{Y \leq y\} = \Omega \cap \{Y \leq y\} = (\{X \leq x\} \cupdot \{X > x\}) = (\{X \leq x\} \cap \{Y \leq y\}) \cupdot (\{X > x \} \cap \{Y \leq y\}) \\
+&F_Y(y) = P[Y \leq y] = P[X \leq x, Y \leq y] + P[X > x, Y \leq y] = F_{X,Y}(x,y) + P[X > x, Y \leq y] \\
+&P[X > x, Y \leq y] = F_Y(y) - F_{X,Y}(x,y)
+\end{align*}
+
+%%%% 2 %%%%
+\item
+
+Assume that there are 12 balls in an urn, 3 of them red, 4 white and 5 blue. Assume that you draw 2 balls of them, replacing the first ball after noting its color before drawing the second ball. \\
+
+Denote by $X$ the number of drawn red balls and by $Y$ the number of drawn white balls. Calculate the joint probability mass distribution of $X$ and $Y$ as well as their marginal
+distributions. Are $X$ and $Y$ independent? \\
+
+Answer: 
+\begin{align*}
+&p_X(0) = \left(\frac{9}{12}\right)^2 =  \frac{9}{16}, \quad p_X(1) = 2 \cdot \frac{3}{12} \frac{9}{12} =  \frac{6}{16}, \quad p_X(2) = \left( \frac{3}{12}\right)^2 = \frac{1}{16} \\
+&p_Y(0) = \left(\frac{8}{12}\right)^2 = \frac{4}{9}, \quad p_Y(1) = 2 \cdot \frac{4}{12}\frac{8}{12}, \quad p_Y(2) = \left(\frac{4}{12}\right)^2 = \frac{1}{9} \\
+\end{align*}
+\begin{align*}
+p_{X,Y}(x,y) \quad &x = 0, \quad x = 1, \quad x = 2 \\
+y = 0 \quad &\frac{25}{144} \quad \frac{30}{144} \quad \frac{9}{144} \\
+y=1 \quad &\frac{40}{144} \quad \frac{24}{144} \\
+y=2 \quad & \frac{16}{144}
+\end{align*}
+
+$X$ and $Y$ are \underline{not} independent. For instance, $p_{X,Y}(0,0) = \frac{25}{144} \neq \frac{1}{4} = p_X(0)p_Y(0)$. 
+
+\newpage
+%%%% 3 %%%%
+\item
+
+Assume that the joint probability mass distribution $p_{X,Y}$ of the random variables $X$ and
+$Y$ is given by
+
+\begin{align*}
+&p_{X,Y}(1,1) = p_{X,Y}(1,2) = p_{X,Y}(1,3) = \frac{1}{12} \\
+&p_{X,Y}(2,1) = p_{X,Y}(2,2) = p_{X,Y}(2,3) = \frac{1}{4}
+\end{align*}
+
+\begin{enumerate}
+\item
+Calculate the marginal probability mass distributions $p_X$ and $p_Y$.
+
+\item
+Are $X$ and $Y$ independent?
+
+\item
+Calculate the probability mass distribution of the random variable $Z = X/Y$.
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+$p_X(1) = \frac{1}{4} \quad p_X(2) = \frac{3}{4}$\\
+$p_Y(1) = p_Y(1) = p_Y(3) = \frac{1}{3}$
+
+\item
+Yes $X$ and $Y$ are independent since $p_X(x)p_Y(y) = p_{X,Y}(x,y)$ for all $(x,y) \in \{1,2\} \times \{1,2,3\}$.
+
+\item
+$p_Z(2) = p_{X,Y}(2,1) = \frac{1}{4}$\\
+$p_Z(1) = p_{X,Y}(1,1) + p_{X,Y}(2,2) = \frac{1}{3}$\\
+$p_Z\left(\frac{2}{3}\right) = p_{X,Y}(2,3) = \frac{1}{4}$\\
+$p_Z\left(\frac{1}{2}\right) = p_{X,Y}(1,2) = \frac{1}{12}$\\
+$p_Z\left(\frac{1}{3}\right) = p_{X,Y}(1,3) = \frac{1}{12}$
+\end{enumerate}
+
+\item
+Let $X$ and $Y$ be two independent standard-normal distributed random variables and
+define $Z = X^2 + Y^2$. Calculate the cumulative distribution function of $Z$. Which
+distribution does $Z$ follow?\\
+
+Answer: For $z<0$, $F_Z(z) = P[Z \leq z] = P[X^2+Y^2 \leq z] = 0$ since $X^2 + Y^2 \geq 0$. \\
+
+For $z \geq 0$,
+
+\begin{align*}
+F_Z(z) &= P[X^2 + Y^2 \leq z]
+= \iint_{\{x^2+y^2 \leq z\}} f_{X,Y}(x,y) \; dA
+= \iint_{\{x^2+y^2 \leq z\}} f_{X}(x)f_{Y}(y) \; dA \\
+&= \iint_{\{x^2+y^2 \leq z\}} \frac{1}{\sqrt{2\pi}} e^{-x^2/2} \frac{1}{\sqrt{2\pi}} e^{-y^2/2}\; dA
+= \frac{1}{2\pi} \iint_{\{x^2+y^2 \leq z\}} e^{-(x^2+y^2)/2} \; dA \\
+&= \int_{0}^{2\pi} \int_{0}^{\sqrt{z}} re^{-r^2/2} \; drd\theta
+= \frac{2\pi}{2\pi}\left(-e^{-r^2 / 2}\right)\biggr\vert_{0}^{\sqrt{z}}
+= 1-e^{-z/2}\\
+&\\
+\therefore \quad F_Z(z) &=
+\begin{cases}
+0 & z < 0 \\
+1-e^{-z/2} & z \geq 0
+\end{cases}
+\end{align*}
+
+Conclude that $Z$ is exponentially distributed with parameter $\lambda = 2$. 
+
+\newpage
+%%%% 5 %%%%
+\item
+
+Let $X, Y$ be two jointly distributed random variables with joint density
+
+$$
+f_{X,Y}(x,y)=
+\begin{cases}
+cxy & 0 \leq x \leq 1 \text{ and } 0 \leq y \leq 1 \\
+0 & \text{else}
+\end{cases}
+$$
+
+\begin{enumerate}
+\item
+Determine the value of the constant $c$. 
+
+\item
+Are $X$ and $Y$ independent?
+
+\item
+Calculate $E[X]$.
+\end{enumerate}
+
+Answer: 
+
+\begin{enumerate}
+\item
+$
+\frac{1}{c} = \int_0^1 \int_0^1 xy \; dx dy = \left(\frac{x^2}{2}\right)\biggr\vert_0^1
+\left(\frac{y^2}{2}\right)\biggr\vert_0^1
+= \frac{1}{4}
+\implies \boxed{c = 4}
+$
+\item
+$
+f_X(x) = 
+\begin{cases}
+\int_0^1 4xy \; dy & 0 \leq x \leq 1 \\
+0 & \text{else}
+\end{cases}
+=
+\begin{cases}
+2x & 0 \leq x \leq 1 \\
+0 & \text{else}
+\end{cases}
+$\\
+$
+f_Y(y) = 
+\begin{cases}
+\int_0^1 4xy \; dx & 0 \leq y \leq 1 \\
+0 & \text{else}
+\end{cases}
+=
+\begin{cases}
+2y & 0 \leq y \leq 1 \\
+0 & \text{else}
+\end{cases}
+$
+
+Since $f_{X,Y}(x,y) = 4xy = (2x)(2y) = f_X(x)f_Y(y)$ for $(x,y) \in [0,1]^2$ and $f_{X,Y}(x,y) = 0 = f_X(x)f_Y(y)$ for $(x,y) \notin [0,1]^2$, $f_{X,Y}(x,y) = f_X(x)f_Y(y)$ for all $(x,y) \in \mathbb{R}^2$. Conclude that $X$ and $Y$ are independent. 
+
+\item
+$E[X] = \int_0^1 2x^2 \; dx = \frac{2}{3}$
+\end{enumerate}
+
+%%%% 6 %%%%
+\item
+Let $X_1, \dots ,X_n$ be iid random variables with
+density $f$ and cumulative distribution function $F$. Calculate in terms of $f$ and $F$ the density and cumulative distribution functions of the random variables
+\begin{enumerate}
+\item
+$Y = \min\{X_1,\dots, X_n\}$,
+
+\item
+$Z = \max\{X_1,\dots , X_n\} \;.$
+\end{enumerate}
+
+Answer:
+
+\begin{enumerate}
+\item
+\begin{align*}
+F_Y(y) &= P[Y \leq y]
+= P[\min\{X_1, \dots , X_n\} \leq y] 
+= P[\{X_1 \leq y\} \cup \dots \cup \{X_n \leq y\}] \\
+&= 1- P[X_1 > y, \dots , X_n > y]
+= 1- P[X_1 > y] P[X_2 > y] \dots  P[X_n > y] \\
+&= 1- (1-F(y))(1-F(y))\dots (1-F(y)) \\
+&= \boxed{1 - (1-F(y))^n} \\
+f_Y(y) &= F_Y'(y)  = \boxed{n(1-F(y))^{n-1}f(y)}
+\end{align*}
+\item
+\begin{align*}
+F_Z(z) &= P[Z \leq z] = P[\max\{X_1, \dots , X_n\} \leq z]\\
+&= P[\{X_1 \leq z\} \cap \dots \cap \{X_n \leq z\}]
+= P[X_1 \leq z, X_2 \leq z, \dots , X_n \leq z]\\
+&= \boxed{(F(z))^n}\\
+f_Z(z) &= F_Z'(z) = \boxed{n(F(z))^{n-1}f(z)}
+\end{align*}
+\end{enumerate}
+
+\end{enumerate}
+
+\end{document}
